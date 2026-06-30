@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memora Console — AI Incident Memory Copilot</title>
+    <!-- Google Fonts: Geist & Instrument Serif -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Instrument+Serif:ital,wght@0,400;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="glass-bg-glow"></div>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="main-header">
+            <div class="logo-area">
+                <a href="/" style="text-decoration: none; display: flex; align-items: center; gap: 0.75rem;">
+                    <div class="logo-icon">
+                        <i class="fa-solid fa-brain-circuit"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Memora</h1>
+                        <span>Incident Memory Copilot</span>
+                    </div>
+                </a>
+            </div>
+            <div class="header-actions">
+                <div id="memory-status" class="status-badge unseeded">
+                    <span class="pulse-dot"></span>
+                    <span class="status-label">Memory: Unseeded</span>
+                </div>
+                <button id="btn-seed" class="btn btn-primary" title="Seed 15 historical incident postmortems into Cognee">
+                    <i class="fa-solid fa-database"></i> Seed Memory
+                </button>
+                <button id="btn-ingest-real" class="btn btn-secondary" title="Ingest raw data from local files (GitHub, Slack, PagerDuty, Datadog)">
+                    <i class="fa-solid fa-cloud-arrow-down"></i> Ingest Real Data
+                </button>
+                <button id="btn-reset" class="btn btn-secondary" title="Clear Cognee and reset state">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
+                </button>
+            </div>
+        </header>
+
+        <!-- DASHBOARD GRID -->
+        <main class="dashboard-grid">
+            
+            <!-- LEFT PANEL: ALERTS QUEUE -->
+            <section class="panel-alerts glass-card">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-triangle-exclamation text-critical"></i> Active Alerts</h2>
+                    <span class="alert-count" id="active-alert-count">0</span>
+                </div>
+                <div class="alerts-list-container">
+                    <div id="alerts-loading" class="list-placeholder hidden">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Loading alerts...
+                    </div>
+                    <div id="alerts-unseeded-msg" class="list-placeholder">
+                        <i class="fa-solid fa-database-arrow-down"></i>
+                        <p>Seed the memory cluster to simulate production alerts.</p>
+                    </div>
+                    <div id="alerts-list" class="alerts-list hidden">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- CENTER PANEL: KNOWLEDGE GRAPH VISUALIZER -->
+            <section class="panel-graph glass-card">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-network-wired text-primary"></i> Cognee Memory Graph</h2>
+                    <div class="graph-legend">
+                        <span class="legend-item"><span class="legend-dot alert-dot"></span> Alert</span>
+                        <span class="legend-item"><span class="legend-dot upstream-dot"></span> Service</span>
+                        <span class="legend-item"><span class="legend-dot history-dot"></span> Past Outage</span>
+                    </div>
+                </div>
+                <div class="graph-canvas-container">
+                    <div id="graph-placeholder" class="graph-placeholder">
+                        <div class="placeholder-icon">
+                            <i class="fa-solid fa-diagram-project"></i>
+                        </div>
+                        <p>Graph visualization will populate upon alert diagnosis.</p>
+                    </div>
+                    <svg id="graph-svg" class="graph-svg hidden">
+                        <g id="links-group"></g>
+                        <g id="nodes-group"></g>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- RIGHT PANEL: DIAGNOSIS & REMEDIATION -->
+            <section class="panel-copilot glass-card">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-robot text-accent"></i> Copilot SRE Diagnosis</h2>
+                </div>
+                <div class="copilot-content-container">
+                    
+                    <!-- INITIAL WELCOME STATE -->
+                    <div id="copilot-welcome" class="copilot-state">
+                        <div class="welcome-graphic">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <h3>Copilot Ready</h3>
+                        <p>Select an active production alert from the queue to run deep graph traversal and retrieve likely root causes and fix steps.</p>
+                    </div>
+
+                    <!-- LOADING STATE -->
+                    <div id="copilot-loading" class="copilot-state hidden">
+                        <div class="loader-circle"></div>
+                        <h3>Recalling Incidents...</h3>
+                        <p>Cognee is traversing relations between symptoms, services, and past postmortems...</p>
+                        <div class="loading-sub-text">
+                            <span id="loading-step">Analyzing connections</span>
+                        </div>
+                    </div>
+
+                    <!-- DIAGNOSIS RESULTS STATE -->
+                    <div id="copilot-results" class="copilot-state hidden">
+                        <!-- Alert Summary -->
+                        <div class="results-alert-header">
+                            <span id="res-alert-id" class="badge-id">ALERT-000</span>
+                            <h3 id="res-alert-title">Incident Title</h3>
+                        </div>
+
+                        <!-- Confidence & Service -->
+                        <div class="metrics-row">
+                            <div class="metric-card">
+                                <span class="metric-label">Likely Upstream</span>
+                                <span id="res-upstream-service" class="metric-value text-primary">service-db</span>
+                            </div>
+                            <div class="metric-card">
+                                <span class="metric-label">Match Confidence</span>
+                                <div class="confidence-container">
+                                    <span id="res-confidence-text" class="metric-value text-success">95%</span>
+                                    <div class="progress-bar-bg">
+                                        <div id="res-confidence-bar" class="progress-bar-fill" style="width: 95%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Root Cause Analysis -->
+                        <div class="root-cause-box">
+                            <h4><i class="fa-solid fa-magnifying-glass-chart"></i> Root Cause Diagnosis</h4>
+                            <p id="res-root-cause">Root cause text here...</p>
+                        </div>
+
+                        <!-- Remediation Steps -->
+                        <div class="remediation-box">
+                            <h4><i class="fa-solid fa-clipboard-list"></i> Recommended Fix Actions</h4>
+                            <ul id="res-remediation-checklist" class="checklist">
+                                <!-- Populated by JS -->
+                            </ul>
+                        </div>
+
+                        <!-- Recalled Postmortems -->
+                        <div class="recalled-postmortems-box">
+                            <h4><i class="fa-solid fa-clock-rotate-left"></i> Recalled Past Incidents ({<span id="res-recalled-count">0</span>})</h4>
+                            <div id="res-recalled-list" class="recalled-list">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Resolution Confirmation Form -->
+                        <div class="resolution-form">
+                            <h4><i class="fa-solid fa-check-double"></i> Mark Resolved & Train Model</h4>
+                            <div class="form-group">
+                                <label for="resolution-feedback">Resolution Feedback & Notes</label>
+                                <textarea id="resolution-feedback" placeholder="Confirm what resolved it (e.g. 'Manually ran renewal scripts and reloaded proxy configs'). This strengthens future connections in Cognee."></textarea>
+                            </div>
+                            <button id="btn-resolve" class="btn btn-success btn-full">
+                                <i class="fa-solid fa-brain"></i> Resolve & Run cognee.improve()
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- NOTIFICATION POPUP -->
+    <div id="toast" class="toast hidden">
+        <i id="toast-icon" class="fa-solid fa-circle-check"></i>
+        <span id="toast-msg">Success Message</span>
+    </div>
+    
+    <script src="/static/app.js"></script>
+</body>
+</html>

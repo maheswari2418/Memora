@@ -1,0 +1,17 @@
+[
+  {
+    "user": "U_ALICE",
+    "text": "Hey oncall team! I'm seeing a spike in payment-gateway timeout errors. Last time this happened, it was because the TLS certificates expired and Nginx didn't pick them up.",
+    "ts": "1782712146.0"
+  },
+  {
+    "user": "U_BOB",
+    "text": "Checking GitHub PR #114. Looks like the cert was renewed, but did we run Nginx reload? Let me reload the load-balancer now.",
+    "ts": "1782712200.0"
+  },
+  {
+    "user": "U_ALICE",
+    "text": "Confirming reloads fixed the latency issues. Traffic is returning to normal.",
+    "ts": "1782712400.0"
+  }
+]

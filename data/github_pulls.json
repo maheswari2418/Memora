@@ -1,0 +1,30 @@
+[
+  {
+    "number": 114,
+    "title": "Renew SSL cert on payment-gateway",
+    "user": {
+      "login": "devops_sam"
+    },
+    "state": "closed",
+    "merged_at": "2026-06-27T14:21:48Z",
+    "html_url": "https://github.com/my-org/payment-service/pull/114",
+    "body": "Fixed expired SSL certificates in the validation loop. Note: requires cert-manager trigger to renew properly.",
+    "head": {
+      "ref": "cert-renewal"
+    }
+  },
+  {
+    "number": 115,
+    "title": "Optimized database connection pools",
+    "user": {
+      "login": "db_wizard"
+    },
+    "state": "closed",
+    "merged_at": "2026-06-28T09:12:00Z",
+    "html_url": "https://github.com/my-org/checkout-service/pull/115",
+    "body": "Increase maximum pool size to 50 connections. Clean up transaction leaks in checkout routing controllers.",
+    "head": {
+      "ref": "db-pool-opt"
+    }
+  }
+]

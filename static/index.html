@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memora — AI Incident Memory Copilot</title>
+  <meta name="description" content="The memory layer for infrastructure incidents. Memora joins your alerts with your runbooks, commits, Slack threads, and past postmortems." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --bg: #0d0d0d;
+      --panel: #161616;
+      --panel2: #1c1c1c;
+      --border: #2a2a2a;
+      --border2: #333;
+      --green: #22c55e;
+      --green-dim: #16a34a;
+      --text: #f5f5f5;
+      --muted: #888;
+      --muted2: #555;
+      --red: #ef4444;
+      --amber: #f59e0b;
+      --blue: #3b82f6;
+      --radius: 10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── GRID OVERLAY ─── */
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      background: rgba(10,10,10,0.92);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .nav-logo svg {
+      width: 26px; height: 26px;
+      stroke: var(--text);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 400;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .btn-signin {
+      color: var(--muted);
+      font-size: 14px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px 8px;
+      font-family: inherit;
+      transition: color 0.15s;
+    }
+    .btn-signin:hover { color: var(--text); }
+
+    .btn-try {
+      background: var(--green);
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s;
+    }
+    .btn-try:hover { background: #16a34a; }
+
+    /* ─── ANNOUNCEMENT BANNER ─── */
+    .banner {
+      margin-top: 56px;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 0;
+      text-align: center;
+      font-size: 13px;
+    }
+    .banner a {
+      color: var(--green);
+      font-weight: 500;
+    }
+    .banner span { color: var(--muted); margin: 0 8px; }
+    .banner .arrow { color: var(--text); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 80px 40px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 80px;
+    }
+    .hero-left { flex: 1; }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--green);
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .hero-h1 {
+      font-size: clamp(44px, 5.5vw, 68px);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      margin-bottom: 24px;
+      color: var(--text);
+    }
+    .hero-sub {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 36px;
+      max-width: 460px;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .btn-hero-primary {
+      background: var(--green);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 28px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-hero-primary:hover { background: #16a34a; transform: translateY(-1px); }
+
+    .btn-hero-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid #3a3a3a;
+      border-radius: 8px;
+      padding: 12px 28px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      transition: border-color 0.15s;
+    }
+    .btn-hero-secondary:hover { border-color: #666; }
+
+    .hero-powered {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .hero-powered .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .hero-powered a { color: var(--text); font-weight: 500; }
+
+    /* Hero Card */
+    .hero-card-wrap {
+      flex: 0 0 420px;
+    }
+    .hero-card {
+      background: #1a1a1a;
+      border: 1px solid #2e2e2e;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    }
+    .card-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 16px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .dot-red { width: 10px; height: 10px; border-radius: 50%; background: #ef4444; }
+    .dot-amber { width: 10px; height: 10px; border-radius: 50%; background: #f59e0b; }
+    .dot-green-s { width: 10px; height: 10px; border-radius: 50%; background: #22c55e; }
+
+    .card-body { padding: 20px; }
+    .card-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+    .card-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .card-section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin: 16px 0 8px;
+    }
+    .card-title {
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.35;
+      margin-bottom: 14px;
+    }
+    .card-badges {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 100px;
+    }
+    .badge-red { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+    .badge-green { background: rgba(34,197,94,0.12); color: #22c55e; border: 1px solid rgba(34,197,94,0.25); }
+    .badge-amber { background: rgba(245,158,11,0.12); color: #f59e0b; border: 1px solid rgba(245,158,11,0.25); }
+    .badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+    .card-actions-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .card-action-list {
+      list-style: none;
+      margin-bottom: 14px;
+    }
+    .card-action-list li {
+      font-size: 13px;
+      color: #ccc;
+      padding: 2px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-action-list li::before {
+      content: '•';
+      color: var(--green);
+      font-size: 16px;
+    }
+    .card-source-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .card-source-label { font-size: 12px; color: var(--muted); }
+    .source-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 500;
+      background: #252525;
+      border: 1px solid #333;
+      border-radius: 5px;
+      padding: 2px 8px;
+      color: #ccc;
+    }
+    .card-action-btns {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-card-primary {
+      background: var(--green);
+      color: #000;
+      border: none;
+      border-radius: 7px;
+      padding: 9px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn-card-secondary {
+      background: #252525;
+      color: var(--text);
+      border: 1px solid #333;
+      border-radius: 7px;
+      padding: 9px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .card-watch {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    /* ─── SECTION BASE ─── */
+    section { padding: 100px 40px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    /* ─── S2: HOW IT WORKS (Typographic) ─── */
+    #how-it-works {
+      padding: 120px 40px;
+      background: var(--black);
+    }
+    .how-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .how-eyebrow {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 400;
+      margin-bottom: 28px;
+    }
+    .how-statement {
+      font-size: clamp(38px, 5vw, 60px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+    }
+    .how-statement .bright { color: var(--text); }
+    .how-statement .dim { color: #555; }
+
+    /* ─── S3: INTEGRATIONS ─── */
+    #integrations {
+      background: var(--black);
+      padding: 100px 40px;
+    }
+    .integrations-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .integrations-left .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .integrations-left h2 {
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+    .integrations-left p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+    .integration-logos {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .integration-logo-box {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      padding: 18px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+      transition: border-color 0.15s;
+    }
+    .integration-logo-box:hover { border-color: #444; }
+    .integration-logo-box .logo-icon { font-size: 28px; }
+
+    /* Stream Panel */
+    .stream-panel {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    }
+    .stream-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 16px;
+      border-bottom: 1px solid #252525;
+    }
+    .stream-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid #252525;
+    }
+    .stream-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .live-badge .dot-live {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    .stream-row {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid #222;
+      gap: 12px;
+    }
+    .stream-row:last-child { border-bottom: none; }
+    .stream-icon { font-size: 20px; flex-shrink: 0; }
+    .stream-info { flex: 1; min-width: 0; }
+    .stream-source {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .stream-event { font-size: 11px; color: var(--muted); }
+    .stream-arrow {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+    }
+    .stream-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+    .stream-line { width: 40px; height: 1px; background: linear-gradient(90deg, var(--green), #333); }
+    .stream-dest {
+      font-size: 11px;
+      color: #999;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ─── S4: THREE STEPS ─── */
+    #three-steps {
+      background: var(--black);
+      padding: 100px 40px;
+      text-align: center;
+    }
+    .steps-h2 {
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin-bottom: 60px;
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto 40px;
+    }
+    .step-card {
+      background: #111;
+      border: 1px solid #252525;
+      border-radius: 14px;
+      padding: 32px 24px;
+      text-align: center;
+      position: relative;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .step-card:hover { border-color: #444; transform: translateY(-2px); }
+    .step-num {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 12px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .step-emoji { font-size: 36px; margin-bottom: 16px; display: block; }
+    .step-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    .step-detail {
+      background: #161616;
+      border: 1px solid #252525;
+      border-radius: 8px;
+      padding: 14px;
+      text-align: left;
+    }
+    .step-detail-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .step-detail-row:last-child { margin-bottom: 0; }
+    .step-citation {
+      background: #252525;
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--green);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .step-detail-icon { font-size: 16px; flex-shrink: 0; }
+    .step-detail-text { font-size: 11px; color: #aaa; }
+
+    .resolve-btn-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .resolve-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #1e1e1e;
+      border: 1px solid #2e2e2e;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      color: var(--text);
+      text-align: left;
+      transition: border-color 0.15s;
+    }
+    .resolve-btn:hover { border-color: #555; }
+    .resolve-btn .rb-icon { font-size: 18px; }
+
+    .steps-success {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.25);
+      border-radius: 100px;
+      padding: 8px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+    }
+
+    /* ─── S5: CITATIONS ─── */
+    #citations {
+      background: var(--black);
+      padding: 100px 40px;
+    }
+    .citations-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .citations-left h2 {
+      font-size: clamp(34px, 4.5vw, 56px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .citations-hint {
+      font-size: 15px;
+      color: var(--muted);
+    }
+    .citations-hint .cite-n {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.3);
+      border-radius: 4px;
+      padding: 0 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--green);
+      font-family: 'JetBrains Mono', monospace;
+      cursor: pointer;
+    }
+    .brief-panel {
+      background: #181818;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    }
+    .brief-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 16px;
+      border-bottom: 1px solid #252525;
+    }
+    .brief-body { padding: 22px; }
+    .brief-id {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .brief-id span { color: var(--muted); font-weight: 400; }
+    .brief-text {
+      font-size: 15px;
+      line-height: 1.75;
+      color: #d4d4d4;
+      margin-bottom: 18px;
+    }
+    .brief-text .cite {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.25);
+      border-radius: 4px;
+      padding: 0 5px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--green);
+      font-family: 'JetBrains Mono', monospace;
+      cursor: pointer;
+      vertical-align: middle;
+    }
+    .brief-text .cite:hover { background: rgba(34,197,94,0.2); }
+    .brief-actions {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 16px;
+      padding: 14px;
+      background: #111;
+      border-radius: 8px;
+    }
+    .brief-actions .arrow { color: var(--text); font-weight: 500; margin-right: 4px; }
+    .brief-actions .action { color: var(--text); font-weight: 600; }
+    .brief-footnotes { border-top: 1px solid #252525; padding-top: 14px; }
+    .brief-footnote {
+      font-size: 11px;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 4px;
+    }
+    .brief-footnote .num { color: var(--green); }
+
+    /* ─── S6: HITL GATES ─── */
+    #hitl-gates {
+      background: var(--black);
+      padding: 80px 40px;
+    }
+    .hitl-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #111;
+      border: 1px solid #252525;
+      border-radius: 16px;
+      padding: 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .hitl-left h2 {
+      font-size: clamp(34px, 4vw, 52px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .hitl-left p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .hitl-right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .hitl-card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 22px 20px;
+      transition: border-color 0.15s;
+    }
+    .hitl-card:hover { border-color: #444; }
+    .hitl-card.active {
+      background: #1c1c1c;
+      border-color: #3a3a3a;
+    }
+    .hitl-threshold {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    .hitl-mttr {
+      font-size: 12px;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 12px;
+    }
+    .hitl-action {
+      font-size: 13px;
+      color: #aaa;
+      font-weight: 500;
+    }
+
+    /* ─── S7: POLICY EDITOR ─── */
+    #policy {
+      background: var(--black);
+      padding: 80px 40px;
+    }
+    .policy-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #111;
+      border: 1px solid #252525;
+      border-radius: 16px;
+      padding: 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .policy-left h2 {
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .policy-left p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .policy-panel {
+      background: #1a1a1a;
+      border: 1px solid #2e2e2e;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .policy-panel-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #252525;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .policy-body { padding: 20px; }
+    .policy-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid #252525;
+    }
+    .policy-row:last-child { border-bottom: none; }
+    .policy-label { font-size: 14px; color: #ccc; font-weight: 500; }
+
+    /* Toggle */
+    .toggle {
+      width: 44px; height: 24px;
+      background: var(--green);
+      border-radius: 100px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .toggle::after {
+      content: '';
+      position: absolute;
+      width: 18px; height: 18px;
+      background: white;
+      border-radius: 50%;
+      top: 3px; right: 3px;
+      transition: right 0.2s;
+    }
+    .toggle.off { background: #444; }
+    .toggle.off::after { right: 23px; }
+
+    /* Slider */
+    .policy-slider-wrap { padding: 14px 0 8px; border-bottom: 1px solid #252525; }
+    .policy-slider-label { font-size: 14px; color: #ccc; font-weight: 500; margin-bottom: 12px; }
+    .slider-track {
+      width: 100%;
+      height: 4px;
+      background: #333;
+      border-radius: 2px;
+      position: relative;
+      margin-bottom: 6px;
+    }
+    .slider-fill {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 85%;
+      background: var(--green);
+      border-radius: 2px;
+    }
+    .slider-thumb {
+      position: absolute;
+      width: 18px; height: 18px;
+      background: #ccc;
+      border-radius: 50%;
+      top: 50%; left: 85%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+    .slider-hint { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+    .policy-impact {
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .policy-impact strong { color: var(--green); }
+
+    /* ─── S8: COMPOUNDING ─── */
+    #compounding {
+      background: var(--black);
+      padding: 80px 40px;
+    }
+    .compounding-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #111;
+      border: 1px solid #252525;
+      border-radius: 16px;
+      padding: 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .compounding-left h2 {
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .compounding-stat {
+      font-size: 15px;
+      color: var(--muted);
+    }
+    .compounding-stat strong { color: var(--text); font-size: 28px; font-weight: 800; }
+    .chart-panel {
+      background: #1a1a1a;
+      border: 1px solid #2e2e2e;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .chart-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 20px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .chart-area { position: relative; height: 160px; }
+    .chart-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+    }
+    .chart-label { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+    /* SVG chart */
+    .chart-svg { width: 100%; height: 160px; }
+
+    /* ─── S9: AUDIT LOG ─── */
+    #audit {
+      background: var(--black);
+      padding: 80px 40px;
+    }
+    .audit-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #111;
+      border: 1px solid #252525;
+      border-radius: 16px;
+      padding: 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .audit-left .dim { color: var(--muted); }
+    .audit-left h2 {
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .audit-left p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .audit-panel {
+      background: #1a1a1a;
+      border: 1px solid #2e2e2e;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .audit-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #252525;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .audit-title { font-size: 14px; font-weight: 700; color: var(--text); }
+    .audit-tabs {
+      display: flex;
+      gap: 6px;
+    }
+    .audit-tab {
+      font-size: 11px;
+      background: #252525;
+      border: 1px solid #333;
+      border-radius: 5px;
+      padding: 3px 9px;
+      color: #aaa;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .audit-tab .count {
+      background: #333;
+      border-radius: 3px;
+      padding: 0 4px;
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #888;
+    }
+    .audit-live { display: flex; align-items: center; gap: 5px; }
+    .audit-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+    .audit-entry {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid #222;
+    }
+    .audit-entry:last-of-type { border-bottom: none; }
+    .audit-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .audit-text { flex: 1; }
+    .audit-action { font-size: 13px; color: var(--text); font-weight: 500; }
+    .audit-time { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
+    .audit-footer {
+      padding: 12px 20px;
+      border-top: 1px solid #252525;
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+    }
+    .footer-top-band {
+      height: 160px;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .footer-main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 40px 40px;
+      display: grid;
+      grid-template-columns: 2fr 1.5fr 1.5fr 2fr;
+      gap: 40px;
+    }
+    .footer-brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+    .footer-brand-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .footer-brand-cta { font-size: 14px; color: var(--muted); }
+    .footer-brand-cta a { color: var(--green); font-weight: 600; }
+    .footer-col-title {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted2);
+      font-weight: 600;
+      margin-bottom: 20px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 12px; }
+    .footer-col ul li a {
+      font-size: 14px;
+      color: var(--muted);
+      transition: color 0.15s;
+    }
+    .footer-col ul li a:hover { color: var(--text); }
+    .footer-newsletter-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .footer-newsletter-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .footer-email-row {
+      display: flex;
+      gap: 8px;
+    }
+    .footer-email-input {
+      flex: 1;
+      background: #1a1a1a;
+      border: 1px solid #2e2e2e;
+      border-radius: 7px;
+      padding: 9px 14px;
+      font-size: 13px;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .footer-email-input:focus { border-color: #444; }
+    .footer-email-input::placeholder { color: var(--muted2); }
+    .footer-subscribe {
+      background: var(--text);
+      color: #000;
+      border: none;
+      border-radius: 7px;
+      padding: 9px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .footer-subscribe:hover { background: #ddd; }
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding: 20px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-copy { font-size: 13px; color: var(--muted); }
+    .footer-powered {
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--green);
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      #hero { flex-direction: column; padding: 40px 24px; }
+      .hero-card-wrap { flex: none; width: 100%; }
+      .integrations-grid, .citations-grid, .hitl-wrapper, .policy-wrapper,
+      .compounding-wrapper, .audit-wrapper { grid-template-columns: 1fr; gap: 40px; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .footer-main { grid-template-columns: 1fr 1fr; }
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAV ─── -->
+  <nav>
+    <div class="nav-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a10 10 0 1 0 10 10"/>
+        <path d="M12 6a6 6 0 0 1 6 6"/>
+        <path d="M12 10a2 2 0 0 1 2 2"/>
+        <path d="M22 2L12 12"/>
+      </svg>
+      Memora
+    </div>
+    <ul class="nav-links">
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#citations">Anatomy of a recall</a></li>
+      <li><a href="#hitl-gates">Pricing</a></li>
+      <li><a href="#compounding">Blog</a></li>
+      <li><a href="#audit">Changelog</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn-signin">Sign in</button>
+      <button class="btn-try" onclick="window.location.href='frontend/dist/index.html'">Try Now</button>
+    </div>
+  </nav>
+
+  <!-- ─── ANNOUNCEMENT BANNER ─── -->
+  <div class="banner">
+    <a href="#how-it-works" style="color: #f59e0b; font-weight: 700;">🎰 THE HANGOVER PART AI</a>
+    <span class="arrow">→</span>
+    <span>Recovering 3 AM production context so SREs don't wake up with a memory hangover.</span>
+  </div>
+
+  <!-- ─── S1: HERO ─── -->
+  <section id="hero" style="padding-top:60px;">
+    <div class="hero-left fade-up">
+      <div class="hero-eyebrow">🏆 WEMAKEDEVS + COGNEE CHALLENGE SUBMISSION</div>
+      <h1 class="hero-h1">The memory layer<br>for infrastructure<br>incidents.</h1>
+      <p class="hero-sub">Memora joins your alerts with your runbooks, commits, Slack threads, and past postmortems — then drafts the fix, fires the action, and cites every match.</p>
+      <div class="hero-btns">
+        <button class="btn-hero-primary" onclick="window.location.href='frontend/dist/index.html'">Try Now</button>
+        <button class="btn-hero-secondary">Watch demo</button>
+      </div>
+      <div class="hero-powered">
+        <span class="dot"></span>
+        Powered by <a href="https://cognee.ai" target="_blank">Cognee Hybrid Graph</a>
+      </div>
+    </div>
+
+    <div class="hero-card-wrap fade-up" style="transition-delay:0.15s;">
+      <div class="hero-card">
+        <div class="card-titlebar">
+          <span class="dot-red"></span>
+          <span class="dot-amber"></span>
+          <span class="dot-green-s"></span>
+        </div>
+        <div class="card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+            <span class="card-label">INCIDENT</span>
+            <span class="card-id" id="live-card-id">INC-7731 · checkout-service</span>
+          </div>
+          <div class="card-section-label">RECALL BRIEF</div>
+          <div class="card-title" id="live-card-title">checkout-service vs. a P1 SSL<br>expiry cascade</div>
+          <div class="card-badges" id="live-card-badges">
+            <span class="badge badge-red"><span class="badge-dot"></span> P1 CRITICAL</span>
+            <span class="badge badge-green">92% confidence</span>
+            <span class="badge badge-amber">4 sources</span>
+          </div>
+          <div class="card-actions-label">ACTIONS</div>
+          <ul class="card-action-list" id="live-card-actions">
+            <li>cert-manager renewal → payment-gateway</li>
+            <li>rollout restart checkout-service</li>
+            <li>update SSL renewal window to 14 days</li>
+          </ul>
+          <div class="card-source-row">
+            <span class="card-source-label">Source</span>
+            <span class="source-chip">🐙 GITHUB</span>
+            <span class="source-chip">📋 NOTION</span>
+            <span class="source-chip">💬 SLACK</span>
+          </div>
+          <div class="card-action-btns">
+            <button class="btn-card-primary">Apply Fix · Execute</button>
+            <button class="btn-card-secondary">Escalate</button>
+            <button class="btn-card-secondary">Hold</button>
+          </div>
+          <div class="card-watch">▶ Watch the recall unfold</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── S2: HOW IT WORKS (Typographic) ─── -->
+  <section id="how-it-works" class="grid-bg">
+    <div class="how-inner fade-up">
+      <div class="how-eyebrow">How Memora works</div>
+      <div class="how-statement">
+        <span class="bright">Datadog alone never tells<br>the whole story. </span>
+        <span class="dim">Memora<br>joins your alerts with your<br>runbooks, </span>
+        <span class="bright">your commits,<br>your Slack threads, and<br>your past postmortems. </span>
+        <span class="dim">It<br>drafts the fix, fires the<br>action, </span>
+        <span class="bright">and</span>
+        <span class="dim"> cites every<br>match.</span>
+      </div>
+
+      <!-- Cognee Hybrid Graph + Vector Memory Diagram -->
+      <div class="fade-up" style="margin-top: 60px; padding: 40px; background: #111; border: 1px solid #252525; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 24px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; color: var(--green); letter-spacing: 0.1em;">
+          Cognee Hybrid Memory Flow
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 800px; flex-wrap: wrap; gap: 20px;">
+          <!-- Sources -->
+          <div style="text-align: center;">
+            <div style="font-size: 11px; color: var(--muted); margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">SOURCES</div>
+            <div style="background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; padding: 12px 16px; font-size: 13px; font-weight: 500; display: flex; flex-direction: column; gap: 6px; text-align: left;">
+              <span>💬 Slack Threads</span>
+              <span>🐙 GitHub Commits</span>
+              <span>🛠 Jira Tickets</span>
+              <span>📋 Confluence Pages</span>
+            </div>
+          </div>
+          <!-- Arrow -->
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--green); font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+            <span>remember()</span>
+            <span style="font-size: 20px;">➔</span>
+          </div>
+          <!-- Cognee Engine -->
+          <div style="text-align: center;">
+            <div style="font-size: 11px; color: var(--muted); margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">COGNEE KNOWLEDGE ENGINE</div>
+            <div style="background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.3); border-radius: 8px; padding: 16px 24px; font-size: 13px; font-weight: 600; display: flex; flex-direction: column; gap: 8px;">
+              <span style="color: #f5f5f5;">Graph Relationships</span>
+              <span style="color: var(--muted2); font-weight: 400;">+</span>
+              <span style="color: #f5f5f5;">Semantic Vectors</span>
+            </div>
+          </div>
+          <!-- Arrow -->
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--green); font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+            <span>recall()</span>
+            <span style="font-size: 20px;">➔</span>
+          </div>
+          <!-- Best Answer -->
+          <div style="text-align: center;">
+            <div style="font-size: 11px; color: var(--muted); margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">RESOLVER</div>
+            <div style="background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; padding: 20px 24px; font-size: 14px; font-weight: 700; color: var(--green);">
+              Best Answer +<br>Runbook Action
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── S3: INTEGRATIONS ─── -->
+  <section id="integrations">
+    <div class="integrations-grid">
+      <div class="integrations-left fade-up">
+        <div class="eyebrow">INTEGRATIONS</div>
+        <h2>Plug into the stack<br>your SRE team<br>already runs.</h2>
+        <p>Cognee.remember() ingests your incidents from every platform your SRE team uses — PagerDuty, Datadog, Slack, GitHub, Notion, and Grafana.</p>
+        <div class="integration-logos">
+          <div class="integration-logo-box">
+            <span class="logo-icon">🐕</span>
+            Datadog
+          </div>
+          <div class="integration-logo-box">
+            <span class="logo-icon" style="color:#22c55e;font-weight:800;font-size:18px;">PagerDuty</span>
+            PagerDuty
+          </div>
+          <div class="integration-logo-box">
+            <span class="logo-icon">🐙</span>
+            GitHub
+          </div>
+          <div class="integration-logo-box">
+            <span class="logo-icon">💬</span>
+            Slack
+          </div>
+          <div class="integration-logo-box">
+            <span class="logo-icon">📋</span>
+            Notion
+          </div>
+          <div class="integration-logo-box">
+            <span class="logo-icon">🔥</span>
+            Grafana
+          </div>
+        </div>
+      </div>
+      <div class="fade-up" style="transition-delay:0.1s;">
+        <div class="stream-panel" id="live-stream-panel">
+          <div class="stream-titlebar">
+            <span class="dot-red"></span>
+            <span class="dot-amber"></span>
+            <span class="dot-green-s"></span>
+          </div>
+          <div class="stream-header">
+            <span class="stream-title">cognee.remember() Ingestion Stream</span>
+            <span class="live-badge" id="live-stream-status"><span class="dot-live"></span> Live</span>
+          </div>
+          <div id="live-stream-rows-container">
+            <div class="stream-row">
+              <span class="stream-icon">🐕</span>
+              <div class="stream-info">
+                <div class="stream-source">DATADOG</div>
+                <div class="stream-event">alert.fired</div>
+              </div>
+              <div class="stream-arrow">
+                <span class="stream-dot"></span>
+                <span class="stream-line"></span>
+                <span class="stream-dest">checkout-service</span>
+              </div>
+            </div>
+            <div class="stream-row">
+              <span class="stream-icon">⚠️</span>
+              <div class="stream-info">
+                <div class="stream-source">DATADOG</div>
+                <div class="stream-event">alert.fired</div>
+              </div>
+              <div class="stream-arrow">
+                <span class="stream-dot"></span>
+                <span class="stream-line"></span>
+                <span class="stream-dest">checkout-service</span>
+              </div>
+            </div>
+            <div class="stream-row">
+              <span class="stream-icon">🔵</span>
+              <div class="stream-info">
+                <div class="stream-source">PAGERDUTY</div>
+                <div class="stream-event">checkout-service</div>
+              </div>
+              <div class="stream-arrow">
+                <span class="stream-dot"></span>
+                <span class="stream-line"></span>
+                <span class="stream-dest">checkout-service</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── S4: THREE STEPS ─── -->
+  <section id="three-steps">
+    <h2 class="steps-h2 fade-up">From alert to a resolved incident.<br>Three steps. No runbook archaeology.</h2>
+    <div class="steps-grid">
+      <div class="step-card fade-up">
+        <div class="step-num">1. Detect</div>
+        <span class="step-emoji">📡</span>
+        <h3>Detect</h3>
+        <div class="step-detail">
+          <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:12px;margin-bottom:10px;">
+            <div style="font-size:11px;font-weight:700;color:var(--red);margin-bottom:4px;">ALERT: High Latency</div>
+            <div style="font-size:10px;color:var(--muted);margin-bottom:8px;">Metric anomaly detected</div>
+            <div style="display:flex;gap:12px;">
+              <span style="font-size:10px;color:var(--muted);">● Source: <span style="color:#aaa;">PagerDuty</span></span>
+              <span style="font-size:10px;color:var(--muted);">● Impact: <span style="color:#aaa;">Production API</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="step-card fade-up" style="transition-delay:0.1s;">
+        <div class="step-num">2. Recall</div>
+        <span class="step-emoji">📖</span>
+        <h3>Recall</h3>
+        <div class="step-detail">
+          <div style="margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted);">
+            <span>Citation</span><span>Source</span>
+          </div>
+          <div class="step-detail-row">
+            <span class="step-citation">[1]</span>
+            <span class="step-detail-icon">🐕</span>
+            <span class="step-detail-text">Datadog Incident Dashboard</span>
+          </div>
+          <div class="step-detail-row">
+            <span class="step-citation">[2]</span>
+            <span class="step-detail-icon">🐙</span>
+            <span class="step-detail-text">GitOps config change</span>
+          </div>
+          <div class="step-detail-row">
+            <span class="step-citation">[3]</span>
+            <span class="step-detail-icon">💬</span>
+            <span class="step-detail-text">Slack discussion thread</span>
+          </div>
+          <div class="step-detail-row">
+            <span class="step-citation">[4]</span>
+            <span class="step-detail-icon">📋</span>
+            <span class="step-detail-text">Notion Runbook: Incident Response</span>
+          </div>
+        </div>
+      </div>
+      <div class="step-card fade-up" style="transition-delay:0.2s;">
+        <div class="step-num">3. Resolve</div>
+        <span class="step-emoji">🔧</span>
+        <h3>Resolve</h3>
+        <div class="resolve-btn-row">
+          <button class="resolve-btn"><span class="rb-icon">↩</span> Rollback</button>
+          <button class="resolve-btn"><span class="rb-icon">📋</span> Postmortem</button>
+          <button class="resolve-btn"><span class="rb-icon">📢</span> Notify</button>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:2px;">
+            <button class="resolve-btn" style="font-size:11px;padding:7px 8px;"><span style="font-size:14px;">⚖</span> Scale Cluster</button>
+            <button class="resolve-btn" style="font-size:11px;padding:7px 8px;"><span style="font-size:14px;">💾</span> Flush Cache</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;" class="fade-up">
+      <span class="steps-success">✅ Incident resolved successfully</span>
+    </div>
+  </section>
+
+  <!-- ─── S5: CITATIONS ─── -->
+  <section id="citations">
+    <div class="citations-grid">
+      <div class="citations-left fade-up">
+        <h2>Every brief<br>shows its work.<br>Every fix keeps<br>a trail.</h2>
+        <p class="citations-hint">Hover <span class="cite-n" id="demo-cite">[n]</span> to trace</p>
+      </div>
+      <div class="fade-up" style="transition-delay:0.1s;">
+        <div class="brief-panel">
+          <div class="brief-titlebar">
+            <span class="dot-red"></span>
+            <span class="dot-amber"></span>
+            <span class="dot-green-s"></span>
+          </div>
+          <div class="brief-body">
+            <div class="brief-id">Brief · <span>INC-7731</span></div>
+            <p class="brief-text">
+              <strong>checkout-service</strong> is a stable production service
+              <span class="cite" title="Datadog service maturity dashboard, checkout-service.">[1]</span>
+              with no prior incidents in 47 days
+              <span class="cite" title="PagerDuty historical data, checkout-service.">[2]</span>.
+              The last deployment touched payment-gateway TLS certificates
+              <span class="cite" title="GitHub PR #114 and commit history.">[3]</span>.
+            </p>
+            <div class="brief-actions">
+              <span class="arrow">→</span>
+              <span class="action">rollback</span> · <span class="action">cert-renew</span> · <span class="action">postmortem</span>
+            </div>
+            <div class="brief-footnotes">
+              <div class="brief-footnote"><span class="num">[1]</span> Datadog service maturity dashboard, checkout-service.</div>
+              <div class="brief-footnote"><span class="num">[2]</span> PagerDuty historical data, checkout-service.</div>
+              <div class="brief-footnote"><span class="num">[3]</span> GitHub PR #114 and commit history.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── S6: HITL GATES ─── -->
+  <section id="hitl-gates">
+    <div class="hitl-wrapper fade-up">
+      <div class="hitl-left">
+        <h2>HITL gates<br>you control.</h2>
+        <p>You decide what Memora can do alone.</p>
+      </div>
+      <div class="hitl-right">
+        <div class="hitl-card active">
+          <div class="hitl-threshold">&lt; 5min</div>
+          <div class="hitl-mttr">MTTR, 68%</div>
+          <div class="hitl-action">Auto-resolve</div>
+        </div>
+        <div class="hitl-card">
+          <div class="hitl-threshold">5-30min</div>
+          <div class="hitl-mttr">MTTR, 24%</div>
+          <div class="hitl-action">One-click approval</div>
+        </div>
+        <div class="hitl-card">
+          <div class="hitl-threshold">&gt; 30min</div>
+          <div class="hitl-mttr">MTTR, 8%</div>
+          <div class="hitl-action">Two-person review</div>
+        </div>
+        <div class="hitl-card" style="background:rgba(34,197,94,0.04);border-color:rgba(34,197,94,0.2);">
+          <div class="hitl-threshold" style="font-size:16px;color:var(--green);">Custom policy</div>
+          <div class="hitl-mttr">Configure gates</div>
+          <div class="hitl-action" style="color:var(--green);">Edit rules →</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── S7: POLICY EDITOR ─── -->
+  <section id="policy">
+    <div class="policy-wrapper fade-up">
+      <div class="policy-left">
+        <h2>Playbook policy.<br>Runbook rules<br>you can read.</h2>
+        <p>Define exactly which incidents Memora resolves autonomously, which require one-click approval, and which demand two-person review. Plain language policy — no YAML archaeology.</p>
+      </div>
+      <div>
+        <div class="policy-panel">
+          <div class="policy-panel-header">Playbook Policy</div>
+          <div class="policy-body">
+            <div class="policy-row">
+              <span class="policy-label">Auto-resolve incidents</span>
+              <div class="toggle" id="toggle-1" onclick="this.classList.toggle('off')"></div>
+            </div>
+            <div class="policy-slider-wrap">
+              <div class="policy-slider-label">Confidence threshold</div>
+              <div class="slider-track">
+                <div class="slider-fill"></div>
+                <div class="slider-thumb"></div>
+              </div>
+              <div class="slider-hint">85% minimum match confidence</div>
+            </div>
+            <div class="policy-row">
+              <span class="policy-label">Services 90+ days stable</span>
+              <div class="toggle" id="toggle-2" onclick="this.classList.toggle('off')"></div>
+            </div>
+            <div class="policy-impact">Impact: <strong>31/47</strong> alerts auto-resolved</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── S8: COMPOUNDING MEMORY ─── -->
+  <section id="compounding">
+    <div class="compounding-wrapper fade-up">
+      <div class="compounding-left">
+        <h2>Compounding<br>memory.<br>Compounds with<br>your SRE team.</h2>
+        <p class="compounding-stat">
+          <strong>4 min</strong> MTTR (wk 12 of 12)<br>
+          <span style="font-size:13px;color:var(--muted);margin-top:4px;display:block;">was 42 min 12 weeks ago</span>
+        </p>
+      </div>
+      <div>
+        <div class="chart-panel">
+          <div class="chart-title">MTTR Trend</div>
+          <div class="chart-area">
+            <svg class="chart-svg" viewBox="0 0 400 160" preserveAspectRatio="none">
+              <!-- Grid lines -->
+              <line x1="0" y1="0" x2="400" y2="0" stroke="#2a2a2a" stroke-width="1"/>
+              <line x1="0" y1="40" x2="400" y2="40" stroke="#2a2a2a" stroke-width="1"/>
+              <line x1="0" y1="80" x2="400" y2="80" stroke="#2a2a2a" stroke-width="1"/>
+              <line x1="0" y1="120" x2="400" y2="120" stroke="#2a2a2a" stroke-width="1"/>
+              <line x1="0" y1="160" x2="400" y2="160" stroke="#2a2a2a" stroke-width="1"/>
+              <!-- Green gradient fill -->
+              <defs>
+                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#22c55e" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M 0 8 C 40 10, 80 18, 120 32 C 160 50, 180 68, 220 88 C 260 108, 300 128, 340 142 C 360 148, 380 152, 400 155 L 400 160 L 0 160 Z" fill="url(#chartGrad)"/>
+              <!-- Green line -->
+              <path d="M 0 8 C 40 10, 80 18, 120 32 C 160 50, 180 68, 220 88 C 260 108, 300 128, 340 142 C 360 148, 380 152, 400 155"
+                fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Labels -->
+              <text x="4" y="18" fill="#888" font-size="10" font-family="JetBrains Mono, monospace">42 min</text>
+              <text x="340" y="154" fill="#888" font-size="10" font-family="JetBrains Mono, monospace">4 min</text>
+            </svg>
+          </div>
+          <div class="chart-labels">
+            <span class="chart-label">Wk 1</span>
+            <span class="chart-label">Wk 3</span>
+            <span class="chart-label">Wk 6</span>
+            <span class="chart-label">Wk 9</span>
+            <span class="chart-label">Wk 12</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── S9: AUDIT LOG ─── -->
+  <section id="audit">
+    <div class="audit-wrapper fade-up">
+      <div class="audit-left">
+        <h2><span class="dim">Audit trail.</span><br>Audit log on<br>every action.</h2>
+        <p>Every action Memora takes — every approval you give, every rollback it executes — is signed and exportable to your SIEM.</p>
+      </div>
+      <div>
+        <div class="audit-panel">
+          <div class="audit-header">
+            <span class="audit-title">Audit Log</span>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div class="audit-tabs">
+                <span class="audit-tab">all <span class="count">8</span></span>
+                <span class="audit-tab">you <span class="count">3</span></span>
+                <span class="audit-tab">memora <span class="count">5</span></span>
+              </div>
+              <div class="audit-live"><div class="audit-dot"></div></div>
+            </div>
+          </div>
+          <div class="audit-entry">
+            <span class="audit-icon">👤</span>
+            <div class="audit-text">
+              <div class="audit-action">You approved INC-7731 · checkout-service</div>
+              <div class="audit-time">6m ago</div>
+            </div>
+          </div>
+          <div class="audit-entry">
+            <span class="audit-icon">🤖</span>
+            <div class="audit-text">
+              <div class="audit-action">Memora rolled back payment-gateway</div>
+              <div class="audit-time">8m ago</div>
+            </div>
+          </div>
+          <div class="audit-entry">
+            <span class="audit-icon">👤</span>
+            <div class="audit-text">
+              <div class="audit-action">You approved INC-7728 · catalog-service</div>
+              <div class="audit-time">14m ago</div>
+            </div>
+          </div>
+          <div class="audit-footer">
+            <span>✓</span> signed and exportable to SIEM
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-top-band"></div>
+    <div class="footer-main">
+      <div>
+        <div class="footer-brand-logo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a10 10 0 1 0 10 10"/>
+            <path d="M12 6a6 6 0 0 1 6 6"/>
+            <path d="M12 10a2 2 0 0 1 2 2"/>
+            <path d="M22 2L12 12"/>
+          </svg>
+          Memora
+        </div>
+        <div class="footer-brand-desc">
+          Incident memory &amp; recall ops for DevOps teams, calm and accountable.
+        </div>
+        <div class="footer-brand-cta">
+          Stay in touch. <a href="#footer">Try now for free</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Navigation</div>
+        <ul>
+          <li><a href="#how-it-works">How it works</a></li>
+          <li><a href="#citations">Anatomy of a case</a></li>
+          <li><a href="#hitl-gates">Pricing</a></li>
+          <li><a href="#compounding">Blog</a></li>
+          <li><a href="#audit">Changelog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Company</div>
+        <ul>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">DPA</a></li>
+        </ul>
+      </div>
+      <div id="footer">
+        <div class="footer-newsletter-title">Notes from the queue.</div>
+        <div class="footer-newsletter-sub">Once a month, no fluff.</div>
+        <div class="footer-email-row">
+          <input class="footer-email-input" type="email" placeholder="your@work.email" />
+          <button class="footer-subscribe">Subscribe</button>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1100px;margin:0 auto;padding:0 40px;">
+      <div style="border-top:1px solid var(--border);"></div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Memora. All rights reserved.</div>
+      <div class="footer-powered">Powered by Cognee Hybrid Graph</div>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll-triggered fade-in
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            observer.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Citation tooltip demo
+    document.querySelectorAll('.cite').forEach(cite => {
+      cite.addEventListener('mouseenter', function() {
+        this.style.background = 'rgba(34,197,94,0.25)';
+      });
+      cite.addEventListener('mouseleave', function() {
+        this.style.background = 'rgba(34,197,94,0.1)';
+      });
+    });
+
+    // Demo cite button
+    const demoCite = document.getElementById('demo-cite');
+    if (demoCite) {
+      demoCite.addEventListener('click', () => {
+        const cites = document.querySelectorAll('.cite');
+        cites.forEach((c, i) => {
+          setTimeout(() => {
+            c.style.background = 'rgba(34,197,94,0.3)';
+            setTimeout(() => c.style.background = 'rgba(34,197,94,0.1)', 400);
+          }, i * 150);
+        });
+      });
+    }
+
+    // ─── DYNAMIC ALERT STREAMING & SIMULATION FALLBACK ───
+    const SERVICES = [
+      'checkout-service', 'payment-gateway', 'catalog-service',
+      'auth-service', 'api-gateway', 'order-service',
+      'notification-service', 'inventory-service',
+    ];
+    const TEMPLATES = [
+      { type: 'high_latency',  title: 'P99 latency > 2s',             severity: 'critical', source: 'Datadog', icon: '🐕' },
+      { type: 'ssl_expiry',    title: 'SSL certificate expiring in 3d',severity: 'high',     source: 'Datadog', icon: '⚠️' },
+      { type: 'oom_kill',      title: 'OOM kill — pod evicted',        severity: 'critical', source: 'PagerDuty', icon: '🔵' },
+      { type: 'disk_full',     title: 'Disk usage > 95%',             severity: 'high',     source: 'Grafana', icon: '🔥' },
+      { type: 'pod_crash',     title: 'CrashLoopBackOff detected',    severity: 'critical', source: 'PagerDuty', icon: '⚠️' },
+      { type: 'db_slow_query', title: 'DB query timeout (>5s)',        severity: 'high',     source: 'Datadog', icon: '🐕' },
+      { type: 'deploy_fail',   title: 'Deployment rollout failed',     severity: 'critical', source: 'GitHub', icon: '🐙' },
+      { type: 'error_rate',    title: 'Error rate spike > 5%',        severity: 'critical', source: 'Datadog', icon: '🐕' },
+      { type: 'queue_depth',   title: 'Message queue depth > 10k',    severity: 'high',     source: 'Datadog', icon: '🐕' },
+      { type: 'cert_rotation', title: 'TLS cert rotation failed',     severity: 'critical', source: 'PagerDuty', icon: '🔵' },
+    ];
+    const ENGINEERS = ['@ravi.k', '@priya.s', '@ankit.m', '@deepa.r', '@sam.t', '@aisha.n'];
+    let alertCounter = 7800;
+
+    function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function makeLocalIncident() {
+      alertCounter++;
+      const service = rand(SERVICES);
+      const tmpl = rand(TEMPLATES);
+      return {
+        id: 'INC-' + alertCounter,
+        title: tmpl.title + ' — ' + service,
+        service: service,
+        severity: tmpl.severity,
+        environment: 'production',
+        previousMatches: Math.floor(Math.random() * 6) + 1,
+        confidence: Math.floor(Math.random() * 20) + 78,
+        type: tmpl.type,
+        source: tmpl.source,
+        icon: tmpl.icon
+      };
+    }
+
+    // Dynamic actions list based on type
+    function getActionsForType(type, service) {
+      if (type === 'high_latency') {
+        return [
+          'kubectl scale deployment/' + service + ' --replicas=5',
+          'restart dependency check services',
+          're-route traffic to secondary backup region'
+        ];
+      } else if (type === 'ssl_expiry' || type === 'cert_rotation') {
+        return [
+          'cert-manager renew --certificate tls-cert',
+          'verify ACME DNS validation records',
+          'flush network and cert caches'
+        ];
+      } else if (type === 'oom_kill') {
+        return [
+          'increase memory limit to 1Gi in k8s deployment',
+          'kubectl rollout restart deployment/' + service,
+          'enable JVM heap memory limits'
+        ];
+      } else if (type === 'disk_full') {
+        return [
+          'purge app log directories',
+          'trigger logrotate configuration script',
+          'compress temporary system dumps'
+        ];
+      } else {
+        return [
+          'verify service ' + service + ' logs',
+          'check container platform readiness state',
+          'reinforce resolution pathways'
+        ];
+      }
+    }
+
+    // Update Hero Card UI elements
+    function updateHeroCard(alert) {
+      const elId = document.getElementById('live-card-id');
+      const elTitle = document.getElementById('live-card-title');
+      const elBadges = document.getElementById('live-card-badges');
+      const elActions = document.getElementById('live-card-actions');
+
+      if (!elId || !elTitle || !elBadges || !elActions) return;
+
+      // Update basic fields
+      elId.innerText = alert.id + ' · ' + alert.service;
+      elTitle.innerText = alert.title;
+
+      // Severity badge class mapping
+      const sevClass = alert.severity === 'critical' ? 'badge-red' : alert.severity === 'high' ? 'badge-amber' : 'badge-green';
+      const badgeHtml = `
+        <span class="badge ${sevClass}"><span class="badge-dot"></span> ${alert.severity.toUpperCase()}</span>
+        <span class="badge badge-green">${alert.confidence ?? 92}% confidence</span>
+        <span class="badge badge-amber">${alert.previousMatches ?? 4} sources</span>
+      `;
+      elBadges.innerHTML = badgeHtml;
+
+      // Update action steps
+      const actions = getActionsForType(alert.type, alert.service);
+      elActions.innerHTML = actions.map(act => `
+        <li>${act}</li>
+      `).join('');
+
+      // Add glow effect animation
+      const card = document.querySelector('.hero-card');
+      if (card) {
+        card.style.borderColor = '#22c55e';
+        card.style.boxShadow = '0 0 30px rgba(34,197,94,0.2)';
+        setTimeout(() => {
+          card.style.borderColor = '#2e2e2e';
+          card.style.boxShadow = '0 24px 60px rgba(0,0,0,0.6)';
+        }, 1200);
+      }
+    }
+
+    // Prepend dynamic event to ingestion list
+    function appendIngestionStream(alert) {
+      const container = document.getElementById('live-stream-rows-container');
+      if (!container) return;
+
+      const newRow = document.createElement('div');
+      newRow.className = 'stream-row';
+      newRow.style.background = 'rgba(34,197,94,0.12)';
+      newRow.style.transition = 'background 1.5s ease';
+
+      const icon = alert.icon || (alert.source === 'GitHub' ? '🐙' : alert.source === 'PagerDuty' ? '🔵' : '🐕');
+
+      newRow.innerHTML = `
+        <span class="stream-icon">${icon}</span>
+        <div class="stream-info">
+          <div class="stream-source">${alert.source ? alert.source.toUpperCase() : 'DATADOG'}</div>
+          <div class="stream-event">alert.fired</div>
+        </div>
+        <div class="stream-arrow">
+          <span class="stream-dot"></span>
+          <span class="stream-line"></span>
+          <span class="stream-dest">${alert.service}</span>
+        </div>
+      `;
+
+      // Prepend and prune beyond 3 items
+      container.insertBefore(newRow, container.firstChild);
+      if (container.children.length > 3) {
+        container.removeChild(container.lastChild);
+      }
+
+      // Staggered highlight removal
+      setTimeout(() => {
+        newRow.style.background = 'transparent';
+      }, 1500);
+    }
+
+    // Handle incoming alert event
+    function handleIncomingAlert(alert) {
+      updateHeroCard(alert);
+      appendIngestionStream(alert);
+    }
+
+    // ─── Connection Setup ───
+    let localSimInterval = null;
+
+    function startLocalSimulation() {
+      if (localSimInterval) return;
+      const statusEl = document.getElementById('live-stream-status');
+      if (statusEl) {
+        statusEl.innerHTML = '<span class="dot-live" style="background:#f59e0b;"></span> Simulation';
+        statusEl.style.color = '#f59e0b';
+      }
+
+      // Fire initial mockup after 2.5s
+      setTimeout(() => {
+        handleIncomingAlert(makeLocalIncident());
+      }, 2500);
+
+      localSimInterval = setInterval(() => {
+        handleIncomingAlert(makeLocalIncident());
+      }, 12000);
+    }
+
+    // Connect to SSE stream if available
+    function connectStream() {
+      const port = window.location.port;
+      // Skip backend if running as flat file
+      if (port === '') {
+        startLocalSimulation();
+        return;
+      }
+
+      const es = new EventSource('/api/stream');
+      es.onopen = () => {
+        const statusEl = document.getElementById('live-stream-status');
+        if (statusEl) {
+          statusEl.innerHTML = '<span class="dot-live"></span> Live';
+          statusEl.style.color = 'var(--green)';
+        }
+      };
+
+      es.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          if (data.type === 'alert') {
+            handleIncomingAlert(data);
+          }
+        } catch(e) {}
+      };
+
+      es.onerror = () => {
+        es.close();
+        // Fallback to local client simulation
+        startLocalSimulation();
+      };
+    }
+
+    connectStream();
+
+    // Try Now button routing
+    document.querySelectorAll('.btn-try, .btn-hero-primary').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const port = window.location.port;
+        if (port === '8000' || port === '') {
+          window.location.href = '/app';
+        } else {
+          window.open('http://localhost:5173', '_blank');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

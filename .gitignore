@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+jspm_packages/
+web_modules/
+
+# Production builds
+dist/
+build/
+out/
+
+# Env & secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+*.key
+
+# IDEs & System
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Cognee / database local cache storage
+.cognee_db/
+cognee.db
+*.sqlite
+*.sqlite3
+
+# Agent workspace configurations
+.agents/
+.antigravity/
+.gemini/

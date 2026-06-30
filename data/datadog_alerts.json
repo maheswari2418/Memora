@@ -1,0 +1,20 @@
+[
+  {
+    "id": "alert-dd-101",
+    "check": "checkout-service latency anomalies",
+    "metric": "p99.latency",
+    "threshold": "> 2000ms",
+    "value": "8421ms",
+    "status": "alert",
+    "timestamp": "2026-06-29T03:07:12Z"
+  },
+  {
+    "id": "alert-dd-102",
+    "check": "payment-db pool capacity limit reached",
+    "metric": "postgresql.connections.active",
+    "threshold": ">= 95%",
+    "value": "100%",
+    "status": "alert",
+    "timestamp": "2026-06-29T04:12:05Z"
+  }
+]
