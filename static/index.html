@@ -7,7 +7,7 @@
   <meta name="description" content="The memory layer for infrastructure incidents. Memora joins your alerts with your runbooks, commits, Slack threads, and past postmortems." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -34,7 +34,7 @@
     body {
       background: var(--black);
       color: var(--text);
-      font-family: 'Inter', sans-serif;
+      font-family: 'Geist', sans-serif;
       font-size: 15px;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
@@ -154,7 +154,7 @@
     }
     .hero-left { flex: 1; }
     .hero-eyebrow {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.1em;
       color: var(--green);
@@ -249,19 +249,19 @@
 
     .card-body { padding: 20px; }
     .card-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
       font-size: 10px;
       color: var(--muted);
       letter-spacing: 0.08em;
       margin-bottom: 4px;
     }
     .card-id {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
       font-size: 12px;
       color: var(--muted);
     }
     .card-section-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
       font-size: 10px;
       letter-spacing: 0.08em;
       color: var(--muted);
@@ -295,7 +295,7 @@
     .badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
 
     .card-actions-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
       font-size: 10px;
       letter-spacing: 0.08em;
       color: var(--muted);
@@ -416,7 +416,7 @@
       margin: 0 auto;
     }
     .integrations-left .eyebrow {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
       font-size: 10px;
       letter-spacing: 0.12em;
       color: var(--muted);
@@ -481,7 +481,7 @@
       border-bottom: 1px solid #252525;
     }
     .stream-title {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
       font-size: 12px;
       color: var(--text);
       font-weight: 500;
@@ -514,7 +514,7 @@
       font-size: 11px;
       font-weight: 700;
       color: var(--text);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
     }
     .stream-event { font-size: 11px; color: var(--muted); }
     .stream-arrow {
@@ -528,7 +528,7 @@
     .stream-dest {
       font-size: 11px;
       color: #999;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
     }
 
     /* ─── S4: THREE STEPS ─── */
@@ -566,7 +566,7 @@
       font-weight: 700;
       color: var(--muted);
       margin-bottom: 12px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
     }
     .step-emoji { font-size: 36px; margin-bottom: 16px; display: block; }
     .step-card h3 {
@@ -594,7 +594,7 @@
       border-radius: 4px;
       padding: 1px 6px;
       font-size: 10px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
       color: var(--green);
       font-weight: 700;
       flex-shrink: 0;
@@ -674,7 +674,7 @@
       font-size: 12px;
       font-weight: 700;
       color: var(--green);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
       cursor: pointer;
     }
     .brief-panel {
@@ -716,7 +716,7 @@
       font-size: 11px;
       font-weight: 700;
       color: var(--green);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
       cursor: pointer;
       vertical-align: middle;
     }
@@ -735,41 +735,82 @@
     .brief-footnote {
       font-size: 11px;
       color: var(--muted);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
       margin-bottom: 4px;
     }
     .brief-footnote .num { color: var(--green); }
-
-    /* ─── S6: HITL GATES ─── */
-    #hitl-gates {
+    /* ─── GOVERNANCE & METRICS BENTO GRID ─── */
+    #governance-metrics {
       background: var(--black);
-      padding: 80px 40px;
+      padding: 100px 40px;
     }
-    .hitl-wrapper {
+    .bento-header {
       max-width: 1100px;
-      margin: 0 auto;
-      background: #111;
-      border: 1px solid #252525;
-      border-radius: 16px;
-      padding: 60px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
+      margin: 0 auto 50px;
+      text-align: left;
     }
-    .hitl-left h2 {
-      font-size: clamp(34px, 4vw, 52px);
+    .bento-eyebrow {
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--green);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    .bento-h2 {
+      font-size: clamp(32px, 4vw, 48px);
       font-weight: 800;
       letter-spacing: -0.025em;
       line-height: 1.1;
       margin-bottom: 16px;
+      color: var(--text);
     }
-    .hitl-left p {
-      font-size: 15px;
+    .bento-sub {
+      font-size: 16px;
       color: var(--muted);
-      line-height: 1.7;
+      max-width: 600px;
     }
-    .hitl-right {
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    @media (max-width: 900px) {
+      .bento-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .bento-card {
+      background: #111;
+      border: 1px solid #252525;
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 420px;
+    }
+    .bento-card-info {
+      margin-bottom: 24px;
+    }
+    .bento-card-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .bento-card-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Inner card components */
+    .hitl-grid-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
@@ -778,7 +819,7 @@
       background: #1a1a1a;
       border: 1px solid #2a2a2a;
       border-radius: 12px;
-      padding: 22px 20px;
+      padding: 16px 18px;
       transition: border-color 0.15s;
     }
     .hitl-card:hover { border-color: #444; }
@@ -787,7 +828,7 @@
       border-color: #3a3a3a;
     }
     .hitl-threshold {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 800;
       letter-spacing: -0.02em;
       margin-bottom: 4px;
@@ -795,7 +836,7 @@
     .hitl-mttr {
       font-size: 12px;
       color: var(--muted);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
       margin-bottom: 12px;
     }
     .hitl-action {
@@ -804,63 +845,32 @@
       font-weight: 500;
     }
 
-    /* ─── S7: POLICY EDITOR ─── */
-    #policy {
-      background: var(--black);
-      padding: 80px 40px;
-    }
-    .policy-wrapper {
-      max-width: 1100px;
-      margin: 0 auto;
-      background: #111;
-      border: 1px solid #252525;
-      border-radius: 16px;
-      padding: 60px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-    .policy-left h2 {
-      font-size: clamp(32px, 4vw, 48px);
-      font-weight: 800;
-      letter-spacing: -0.025em;
-      line-height: 1.1;
-      margin-bottom: 16px;
-    }
-    .policy-left p {
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
     .policy-panel {
       background: #1a1a1a;
       border: 1px solid #2e2e2e;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     }
     .policy-panel-header {
-      padding: 16px 20px;
+      padding: 12px 18px;
       border-bottom: 1px solid #252525;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--text);
     }
-    .policy-body { padding: 20px; }
+    .policy-body { padding: 16px; }
     .policy-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 0;
+      padding: 10px 0;
       border-bottom: 1px solid #252525;
     }
     .policy-row:last-child { border-bottom: none; }
-    .policy-label { font-size: 14px; color: #ccc; font-weight: 500; }
+    .policy-label { font-size: 13px; color: #ccc; font-weight: 500; }
 
-    /* Toggle */
     .toggle {
-      width: 44px; height: 24px;
+      width: 38px; height: 20px;
       background: var(--green);
       border-radius: 100px;
       position: relative;
@@ -871,18 +881,17 @@
     .toggle::after {
       content: '';
       position: absolute;
-      width: 18px; height: 18px;
+      width: 14px; height: 14px;
       background: white;
       border-radius: 50%;
       top: 3px; right: 3px;
       transition: right 0.2s;
     }
     .toggle.off { background: #444; }
-    .toggle.off::after { right: 23px; }
+    .toggle.off::after { right: 21px; }
 
-    /* Slider */
-    .policy-slider-wrap { padding: 14px 0 8px; border-bottom: 1px solid #252525; }
-    .policy-slider-label { font-size: 14px; color: #ccc; font-weight: 500; margin-bottom: 12px; }
+    .policy-slider-wrap { padding: 10px 0 6px; border-bottom: 1px solid #252525; }
+    .policy-slider-label { font-size: 13px; color: #ccc; font-weight: 500; margin-bottom: 8px; }
     .slider-track {
       width: 100%;
       height: 4px;
@@ -900,163 +909,99 @@
     }
     .slider-thumb {
       position: absolute;
-      width: 18px; height: 18px;
+      width: 14px; height: 14px;
       background: #ccc;
       border-radius: 50%;
       top: 50%; left: 85%;
       transform: translate(-50%, -50%);
       box-shadow: 0 2px 6px rgba(0,0,0,0.5);
     }
-    .slider-hint { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+    .slider-hint { font-size: 11px; color: var(--muted); font-family: 'Geist Mono', monospace; }
     .policy-impact {
-      margin-top: 14px;
-      font-size: 12px;
+      margin-top: 10px;
+      font-size: 11px;
       color: var(--muted);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
     }
     .policy-impact strong { color: var(--green); }
 
-    /* ─── S8: COMPOUNDING ─── */
-    #compounding {
-      background: var(--black);
-      padding: 80px 40px;
-    }
-    .compounding-wrapper {
-      max-width: 1100px;
-      margin: 0 auto;
-      background: #111;
-      border: 1px solid #252525;
-      border-radius: 16px;
-      padding: 60px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-    .compounding-left h2 {
-      font-size: clamp(32px, 4vw, 48px);
-      font-weight: 800;
-      letter-spacing: -0.025em;
-      line-height: 1.1;
-      margin-bottom: 24px;
-    }
-    .compounding-stat {
-      font-size: 15px;
-      color: var(--muted);
-    }
-    .compounding-stat strong { color: var(--text); font-size: 28px; font-weight: 800; }
     .chart-panel {
       background: #1a1a1a;
       border: 1px solid #2e2e2e;
       border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      padding: 18px;
     }
     .chart-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--text);
-      margin-bottom: 20px;
-      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 12px;
+      font-family: 'Geist Mono', monospace;
     }
-    .chart-area { position: relative; height: 160px; }
+    .chart-area { position: relative; height: 130px; }
     .chart-labels {
       display: flex;
       justify-content: space-between;
-      margin-top: 8px;
+      margin-top: 6px;
     }
-    .chart-label { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+    .chart-label { font-size: 10px; color: var(--muted); font-family: 'Geist Mono', monospace; }
+    .chart-svg { width: 100%; height: 130px; }
 
-    /* SVG chart */
-    .chart-svg { width: 100%; height: 160px; }
-
-    /* ─── S9: AUDIT LOG ─── */
-    #audit {
-      background: var(--black);
-      padding: 80px 40px;
-    }
-    .audit-wrapper {
-      max-width: 1100px;
-      margin: 0 auto;
-      background: #111;
-      border: 1px solid #252525;
-      border-radius: 16px;
-      padding: 60px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-    .audit-left .dim { color: var(--muted); }
-    .audit-left h2 {
-      font-size: clamp(32px, 4vw, 48px);
-      font-weight: 800;
-      letter-spacing: -0.025em;
-      line-height: 1.1;
-      margin-bottom: 16px;
-    }
-    .audit-left p {
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
     .audit-panel {
       background: #1a1a1a;
       border: 1px solid #2e2e2e;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     }
     .audit-header {
-      padding: 16px 20px;
+      padding: 12px 18px;
       border-bottom: 1px solid #252525;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
-    .audit-title { font-size: 14px; font-weight: 700; color: var(--text); }
+    .audit-title { font-size: 13px; font-weight: 700; color: var(--text); }
     .audit-tabs {
       display: flex;
       gap: 6px;
     }
     .audit-tab {
-      font-size: 11px;
+      font-size: 10px;
       background: #252525;
       border: 1px solid #333;
       border-radius: 5px;
-      padding: 3px 9px;
+      padding: 2px 7px;
       color: #aaa;
       display: flex;
       align-items: center;
-      gap: 5px;
-      cursor: pointer;
+      gap: 4px;
     }
     .audit-tab .count {
       background: #333;
       border-radius: 3px;
-      padding: 0 4px;
-      font-size: 10px;
-      font-family: 'JetBrains Mono', monospace;
+      padding: 0 3px;
+      font-size: 9px;
+      font-family: 'Geist Mono', monospace;
       color: #888;
     }
     .audit-live { display: flex; align-items: center; gap: 5px; }
-    .audit-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+    .audit-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
     .audit-entry {
       display: flex;
       align-items: flex-start;
-      gap: 12px;
-      padding: 14px 20px;
+      gap: 10px;
+      padding: 10px 18px;
       border-bottom: 1px solid #222;
     }
     .audit-entry:last-of-type { border-bottom: none; }
-    .audit-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .audit-icon { font-size: 16px; flex-shrink: 0; }
     .audit-text { flex: 1; }
-    .audit-action { font-size: 13px; color: var(--text); font-weight: 500; }
-    .audit-time { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
+    .audit-action { font-size: 12px; color: var(--text); font-weight: 500; }
+    .audit-time { font-size: 10px; color: var(--muted); font-family: 'Geist Mono', monospace; margin-top: 1px; }
     .audit-footer {
-      padding: 12px 20px;
+      padding: 10px 18px;
       border-top: 1px solid #252525;
-      font-size: 12px;
+      font-size: 11px;
       color: var(--muted);
       display: flex;
       align-items: center;
@@ -1106,7 +1051,7 @@
       color: var(--muted2);
       font-weight: 600;
       margin-bottom: 20px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
     }
     .footer-col ul { list-style: none; }
     .footer-col ul li { margin-bottom: 12px; }
@@ -1170,7 +1115,7 @@
     .footer-copy { font-size: 13px; color: var(--muted); }
     .footer-powered {
       font-size: 12px;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Geist Mono', monospace;
       color: var(--green);
     }
 
@@ -1286,7 +1231,7 @@
           <circle cx="-160" cy="70" r="2.5" />
           <circle cx="160" cy="70" r="2.5" />
         </g>
-        <g fill="rgba(255, 255, 255, 0.85)" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="600">
+        <g fill="rgba(255, 255, 255, 0.85)" font-family="'Geist Mono', monospace" font-size="10.5" font-weight="600">
           <text x="-245" y="-83" text-anchor="start">remember()</text>
           <text x="192" y="-83" text-anchor="start">recall()</text>
           <text x="-225" y="74" text-anchor="start">improve()</text>
@@ -1334,7 +1279,7 @@
   <section id="hero" style="padding-top:60px;">
     <div class="hero-left fade-up">
       <div class="hero-eyebrow">🏆 WEMAKEDEVS + COGNEE CHALLENGE SUBMISSION</div>
-      <h1 class="hero-h1">The memory layer<br>for infrastructure<br>incidents.</h1>
+      <h1 class="hero-h1">The memory layer<br>for <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: #16d05e;">infrastructure</span><br>incidents.</h1>
       <p class="hero-sub">Memora joins your alerts with your runbooks, commits, Slack threads, and past postmortems — then drafts the fix, fires the action, and cites every match.</p>
       <div class="hero-btns">
         <button class="btn-hero-primary" onclick="window.location.href='frontend/dist/index.html'">Try Now</button>
@@ -1403,13 +1348,13 @@
 
       <!-- Cognee Hybrid Graph + Vector Memory Diagram -->
       <div class="fade-up" style="margin-top: 60px; padding: 40px; background: #111; border: 1px solid #252525; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 24px;">
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; color: var(--green); letter-spacing: 0.1em;">
+        <div style="font-family: 'Geist Mono', monospace; font-size: 11px; text-transform: uppercase; color: var(--green); letter-spacing: 0.1em;">
           Cognee Hybrid Memory Flow
         </div>
         <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 800px; flex-wrap: wrap; gap: 20px;">
           <!-- Sources -->
           <div style="text-align: center;">
-            <div style="font-size: 11px; color: var(--muted); margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">SOURCES</div>
+            <div style="font-size: 11px; color: var(--muted); margin-bottom: 8px; font-family: 'Geist Mono', monospace;">SOURCES</div>
             <div style="background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; padding: 12px 16px; font-size: 13px; font-weight: 500; display: flex; flex-direction: column; gap: 6px; text-align: left;">
               <span>💬 Slack Threads</span>
               <span>🐙 GitHub Commits</span>
@@ -1418,27 +1363,27 @@
             </div>
           </div>
           <!-- Arrow -->
-          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--green); font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--green); font-family: 'Geist Mono', monospace; font-size: 12px;">
             <span>remember()</span>
             <span style="font-size: 20px;">➔</span>
           </div>
           <!-- Cognee Engine -->
           <div style="text-align: center;">
-            <div style="font-size: 11px; color: var(--muted); margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">COGNEE KNOWLEDGE ENGINE</div>
-            <div style="background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.3); border-radius: 8px; padding: 16px 24px; font-size: 13px; font-weight: 600; display: flex; flex-direction: column; gap: 8px;">
+            <div style="font-size: 11px; color: var(--muted); margin-bottom: 8px; font-family: 'Geist Mono', monospace;">COGNEE KNOWLEDGE ENGINE</div>
+            <div style="background: rgba(22,208,94,0.1); border: 1px solid rgba(22,208,94,0.3); border-radius: 8px; padding: 16px 24px; font-size: 13px; font-weight: 600; display: flex; flex-direction: column; gap: 8px;">
               <span style="color: #f5f5f5;">Graph Relationships</span>
               <span style="color: var(--muted2); font-weight: 400;">+</span>
               <span style="color: #f5f5f5;">Semantic Vectors</span>
             </div>
           </div>
           <!-- Arrow -->
-          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--green); font-family: 'JetBrains Mono', monospace; font-size: 12px;">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--green); font-family: 'Geist Mono', monospace; font-size: 12px;">
             <span>recall()</span>
             <span style="font-size: 20px;">➔</span>
           </div>
           <!-- Best Answer -->
           <div style="text-align: center;">
-            <div style="font-size: 11px; color: var(--muted); margin-bottom: 8px; font-family: 'JetBrains Mono', monospace;">RESOLVER</div>
+            <div style="font-size: 11px; color: var(--muted); margin-bottom: 8px; font-family: 'Geist Mono', monospace;">RESOLVER</div>
             <div style="background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; padding: 20px 24px; font-size: 14px; font-weight: 700; color: var(--green);">
               Best Answer +<br>Runbook Action
             </div>
@@ -1644,46 +1589,50 @@
     </div>
   </section>
 
-  <!-- ─── S6: HITL GATES ─── -->
-  <section id="hitl-gates">
-    <div class="hitl-wrapper fade-up">
-      <div class="hitl-left">
-        <h2>HITL gates<br>you control.</h2>
-        <p>You decide what Memora can do alone.</p>
-      </div>
-      <div class="hitl-right">
-        <div class="hitl-card active">
-          <div class="hitl-threshold">&lt; 5min</div>
-          <div class="hitl-mttr">MTTR, 68%</div>
-          <div class="hitl-action">Auto-resolve</div>
-        </div>
-        <div class="hitl-card">
-          <div class="hitl-threshold">5-30min</div>
-          <div class="hitl-mttr">MTTR, 24%</div>
-          <div class="hitl-action">One-click approval</div>
-        </div>
-        <div class="hitl-card">
-          <div class="hitl-threshold">&gt; 30min</div>
-          <div class="hitl-mttr">MTTR, 8%</div>
-          <div class="hitl-action">Two-person review</div>
-        </div>
-        <div class="hitl-card" style="background:rgba(34,197,94,0.04);border-color:rgba(34,197,94,0.2);">
-          <div class="hitl-threshold" style="font-size:16px;color:var(--green);">Custom policy</div>
-          <div class="hitl-mttr">Configure gates</div>
-          <div class="hitl-action" style="color:var(--green);">Edit rules →</div>
-        </div>
-      </div>
+  <!-- ─── GOVERNANCE & METRICS BENTO GRID ─── -->
+  <section id="governance-metrics">
+    <div class="bento-header fade-up">
+      <div class="bento-eyebrow">Control, Governance & Metrics</div>
+      <h2 class="bento-h2">Complete control. Compounding performance.</h2>
+      <p class="bento-sub">Configure policies, verify actions, and watch your MTTR decline.</p>
     </div>
-  </section>
-
-  <!-- ─── S7: POLICY EDITOR ─── -->
-  <section id="policy">
-    <div class="policy-wrapper fade-up">
-      <div class="policy-left">
-        <h2>Playbook policy.<br>Runbook rules<br>you can read.</h2>
-        <p>Define exactly which incidents Memora resolves autonomously, which require one-click approval, and which demand two-person review. Plain language policy — no YAML archaeology.</p>
+    <div class="bento-grid">
+      <!-- Card 1: HITL Gates -->
+      <div class="bento-card fade-up" style="transition-delay:0.05s;">
+        <div class="bento-card-info">
+          <h3 class="bento-card-title">HITL Gates</h3>
+          <p class="bento-card-desc">Define which intervals Memora resolves autonomously versus routing to human approval.</p>
+        </div>
+        <div class="hitl-grid-layout">
+          <div class="hitl-card active">
+            <div class="hitl-threshold">&lt; 5min</div>
+            <div class="hitl-mttr">MTTR, 68%</div>
+            <div class="hitl-action">Auto-resolve</div>
+          </div>
+          <div class="hitl-card">
+            <div class="hitl-threshold">5-30min</div>
+            <div class="hitl-mttr">MTTR, 24%</div>
+            <div class="hitl-action">One-click approval</div>
+          </div>
+          <div class="hitl-card">
+            <div class="hitl-threshold">&gt; 30min</div>
+            <div class="hitl-mttr">MTTR, 8%</div>
+            <div class="hitl-action">Two-person review</div>
+          </div>
+          <div class="hitl-card" style="background:rgba(34,197,94,0.04);border-color:rgba(34,197,94,0.2);">
+            <div class="hitl-threshold" style="font-size:16px;color:var(--green);">Custom policy</div>
+            <div class="hitl-mttr">Configure gates</div>
+            <div class="hitl-action" style="color:var(--green);">Edit rules →</div>
+          </div>
+        </div>
       </div>
-      <div>
+
+      <!-- Card 2: Playbook Policy -->
+      <div class="bento-card fade-up" style="transition-delay:0.1s;">
+        <div class="bento-card-info">
+          <h3 class="bento-card-title">Playbook Policy</h3>
+          <p class="bento-card-desc">Define auto-resolution thresholds and rule exclusions in plain English.</p>
+        </div>
         <div class="policy-panel">
           <div class="policy-panel-header">Playbook Policy</div>
           <div class="policy-body">
@@ -1707,31 +1656,22 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ─── S8: COMPOUNDING MEMORY ─── -->
-  <section id="compounding">
-    <div class="compounding-wrapper fade-up">
-      <div class="compounding-left">
-        <h2>Compounding<br>memory.<br>Compounds with<br>your SRE team.</h2>
-        <p class="compounding-stat">
-          <strong>4 min</strong> MTTR (wk 12 of 12)<br>
-          <span style="font-size:13px;color:var(--muted);margin-top:4px;display:block;">was 42 min 12 weeks ago</span>
-        </p>
-      </div>
-      <div>
+      <!-- Card 3: Compounding Memory -->
+      <div class="bento-card fade-up" style="transition-delay:0.15s;">
+        <div class="bento-card-info">
+          <h3 class="bento-card-title">Compounding Memory</h3>
+          <p class="bento-card-desc">As the knowledge graph scales, resolution pathways optimize, lowering MTTR over time.</p>
+        </div>
         <div class="chart-panel">
           <div class="chart-title">MTTR Trend</div>
           <div class="chart-area">
             <svg class="chart-svg" viewBox="0 0 400 160" preserveAspectRatio="none">
-              <!-- Grid lines -->
               <line x1="0" y1="0" x2="400" y2="0" stroke="#2a2a2a" stroke-width="1"/>
               <line x1="0" y1="40" x2="400" y2="40" stroke="#2a2a2a" stroke-width="1"/>
               <line x1="0" y1="80" x2="400" y2="80" stroke="#2a2a2a" stroke-width="1"/>
               <line x1="0" y1="120" x2="400" y2="120" stroke="#2a2a2a" stroke-width="1"/>
               <line x1="0" y1="160" x2="400" y2="160" stroke="#2a2a2a" stroke-width="1"/>
-              <!-- Green gradient fill -->
               <defs>
                 <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stop-color="#22c55e" stop-opacity="0.3"/>
@@ -1739,12 +1679,9 @@
                 </linearGradient>
               </defs>
               <path d="M 0 8 C 40 10, 80 18, 120 32 C 160 50, 180 68, 220 88 C 260 108, 300 128, 340 142 C 360 148, 380 152, 400 155 L 400 160 L 0 160 Z" fill="url(#chartGrad)"/>
-              <!-- Green line -->
-              <path d="M 0 8 C 40 10, 80 18, 120 32 C 160 50, 180 68, 220 88 C 260 108, 300 128, 340 142 C 360 148, 380 152, 400 155"
-                fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <!-- Labels -->
-              <text x="4" y="18" fill="#888" font-size="10" font-family="JetBrains Mono, monospace">42 min</text>
-              <text x="340" y="154" fill="#888" font-size="10" font-family="JetBrains Mono, monospace">4 min</text>
+              <path d="M 0 8 C 40 10, 80 18, 120 32 C 160 50, 180 68, 220 88 C 260 108, 300 128, 340 142 C 360 148, 380 152, 400 155" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <text x="4" y="18" fill="#888" font-size="10" font-family="Geist Mono, monospace">42 min</text>
+              <text x="340" y="154" fill="#888" font-size="10" font-family="Geist Mono, monospace">4 min</text>
             </svg>
           </div>
           <div class="chart-labels">
@@ -1756,17 +1693,13 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ─── S9: AUDIT LOG ─── -->
-  <section id="audit">
-    <div class="audit-wrapper fade-up">
-      <div class="audit-left">
-        <h2><span class="dim">Audit trail.</span><br>Audit log on<br>every action.</h2>
-        <p>Every action Memora takes — every approval you give, every rollback it executes — is signed and exportable to your SIEM.</p>
-      </div>
-      <div>
+      <!-- Card 4: Audit Trail -->
+      <div class="bento-card fade-up" style="transition-delay:0.2s;">
+        <div class="bento-card-info">
+          <h3 class="bento-card-title">Audit Trail</h3>
+          <p class="bento-card-desc">Every action, approval, and automated rollback is cryptographically logged and exportable.</p>
+        </div>
         <div class="audit-panel">
           <div class="audit-header">
             <span class="audit-title">Audit Log</span>
@@ -1834,9 +1767,9 @@
         <ul>
           <li><a href="#how-it-works">How it works</a></li>
           <li><a href="#citations">Anatomy of a case</a></li>
-          <li><a href="#hitl-gates">Pricing</a></li>
-          <li><a href="#compounding">Blog</a></li>
-          <li><a href="#audit">Changelog</a></li>
+          <li><a href="#governance-metrics">Pricing</a></li>
+          <li><a href="#governance-metrics">Blog</a></li>
+          <li><a href="#governance-metrics">Changelog</a></li>
         </ul>
       </div>
       <div class="footer-col">

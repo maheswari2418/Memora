@@ -30,7 +30,7 @@ export default function InvestigationPanel({ incident, recallResult, isRecalling
       {/* Header */}
       <div style={{ marginBottom: 14 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' }}>
-          <code style={{ fontSize: 10, color: '#8B949E', fontFamily: 'JetBrains Mono, monospace' }}>{incident.id}</code>
+          <code style={{ fontSize: 10, color: '#8B949E', fontFamily: 'Geist Mono, monospace' }}>{incident.id}</code>
           <span className={`tag tag-${incident.severity === 'critical' ? 'red' : incident.severity === 'high' ? 'amber' : 'blue'}`}>
             {incident.severity.toUpperCase()}
           </span>
@@ -49,10 +49,10 @@ export default function InvestigationPanel({ incident, recallResult, isRecalling
 
       {/* Recall Loading */}
       {isRecalling && (
-        <div style={{ background: 'rgba(124,58,237,0.08)', border: '1px solid rgba(124,58,237,0.25)', borderRadius: 6, padding: '12px 14px', marginBottom: 14 }}>
+        <div style={{ background: 'rgba(22,208,94,0.08)', border: '1px solid rgba(22,208,94,0.25)', borderRadius: 6, padding: '12px 14px', marginBottom: 14 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span className="cognee-pulse" style={{ width: 8, height: 8, borderRadius: '50%', background: '#7C3AED', display: 'inline-block' }} />
-            <code style={{ fontSize: 12, color: '#7C3AED', fontFamily: 'JetBrains Mono, monospace' }}>recall() — searching memory…</code>
+            <span className="cognee-pulse" style={{ width: 8, height: 8, borderRadius: '50%', background: '#16d05e', display: 'inline-block' }} />
+            <code style={{ fontSize: 12, color: '#16d05e', fontFamily: 'Geist Mono, monospace' }}>recall() — searching memory…</code>
           </div>
           <div style={{ fontSize: 11, color: '#8B949E', marginTop: 6 }}>Traversing 347 nodes · matching similar incidents</div>
         </div>
@@ -62,10 +62,10 @@ export default function InvestigationPanel({ incident, recallResult, isRecalling
       {recallResult && !isRecalling && (
         <>
           {/* Confidence score */}
-          <div style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 6, padding: '12px 14px', marginBottom: 10 }}>
+          <div style={{ background: '#111214', border: '1px solid #202124', borderRadius: 6, padding: '12px 14px', marginBottom: 10 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
               <span style={{ fontSize: 11, fontWeight: 600, color: '#E6EDF3' }}>Memory Match</span>
-              <span style={{ fontSize: 18, fontWeight: 700, fontFamily: 'JetBrains Mono, monospace', color: confidenceColor(recallResult.confidence) }}>
+              <span style={{ fontSize: 18, fontWeight: 700, fontFamily: 'Geist Mono, monospace', color: confidenceColor(recallResult.confidence) }}>
                 {recallResult.confidence}%
               </span>
             </div>
@@ -73,12 +73,12 @@ export default function InvestigationPanel({ incident, recallResult, isRecalling
           </div>
 
           {/* Cognee Memory Lifecycle Stepper */}
-          <div style={{ background: 'rgba(124,58,237,0.06)', border: '1px solid rgba(124,58,237,0.25)', borderRadius: 6, padding: '12px 14px', marginBottom: 10 }}>
-            <div style={{ fontSize: 10, fontFamily: 'JetBrains Mono, monospace', color: '#7C3AED', fontWeight: 700, textTransform: 'uppercase', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#7C3AED', display: 'inline-block', animation: 'cogneePulse 2s infinite' }} />
+          <div style={{ background: 'rgba(22,208,94,0.06)', border: '1px solid rgba(22,208,94,0.25)', borderRadius: 6, padding: '12px 14px', marginBottom: 10 }}>
+            <div style={{ fontSize: 10, fontFamily: 'Geist Mono, monospace', color: '#16d05e', fontWeight: 700, textTransform: 'uppercase', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#16d05e', display: 'inline-block', animation: 'cogneePulse 2s infinite' }} />
               Cognee Memory Lifecycle
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 11, fontFamily: 'JetBrains Mono, monospace' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 11, fontFamily: 'Geist Mono, monospace' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', color: '#E6EDF3' }}>
                 <span>remember()</span>
                 <span style={{ color: '#3FB950' }}>✓ Incident context stored</span>
@@ -112,11 +112,11 @@ export default function InvestigationPanel({ incident, recallResult, isRecalling
 
           {/* Runbook */}
           {runbook && (
-            <div style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 6, padding: '12px 14px', marginBottom: 10 }}>
+            <div style={{ background: '#111214', border: '1px solid #202124', borderRadius: 6, padding: '12px 14px', marginBottom: 10 }}>
               <div style={{ fontSize: 11, fontWeight: 600, color: '#E6EDF3', marginBottom: 8 }}>📋 {runbook.title}</div>
               {runbook.steps.map((step, i) => (
                 <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 6 }}>
-                  <span style={{ fontSize: 10, color: '#484F58', flexShrink: 0, fontFamily: 'JetBrains Mono, monospace' }}>{String(i + 1).padStart(2, '0')}</span>
+                  <span style={{ fontSize: 10, color: '#484F58', flexShrink: 0, fontFamily: 'Geist Mono, monospace' }}>{String(i + 1).padStart(2, '0')}</span>
                   <span style={{ fontSize: 11, color: '#8B949E', lineHeight: 1.5 }}>{step.replace(/^\d+\.\s*/, '')}</span>
                 </div>
               ))}
@@ -125,11 +125,11 @@ export default function InvestigationPanel({ incident, recallResult, isRecalling
 
           {/* Slack */}
           {recallResult.relatedSlack.length > 0 && (
-            <div style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 6, padding: '12px 14px', marginBottom: 10 }}>
+            <div style={{ background: '#111214', border: '1px solid #202124', borderRadius: 6, padding: '12px 14px', marginBottom: 10 }}>
               <div style={{ fontSize: 11, fontWeight: 600, color: '#E6EDF3', marginBottom: 8 }}>💬 Slack Discussion</div>
               {recallResult.relatedSlack.slice(0, 3).map(msg => (
                 <div key={msg.id} style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-                  <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#30363D', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700, flexShrink: 0, color: '#7C3AED' }}>{msg.avatar}</div>
+                  <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#202124', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700, flexShrink: 0, color: '#16d05e' }}>{msg.avatar}</div>
                   <div>
                     <div style={{ fontSize: 10, color: '#8B949E', marginBottom: 2 }}><strong style={{ color: '#E6EDF3' }}>{msg.user}</strong> · {msg.timestamp}</div>
                     <div style={{ fontSize: 11, color: '#8B949E', lineHeight: 1.5 }}>{msg.text}</div>

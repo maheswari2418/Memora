@@ -19,7 +19,7 @@ const nodeColors: Record<string, string> = {
   deployment: '#D29922',
   engineer: '#3FB950',
   github_pr: '#8B949E',
-  slack_thread: '#7C3AED',
+  slack_thread: '#16d05e',
   datadog_alert: '#F85149',
   runbook: '#3FB950',
   root_cause: '#D29922',
@@ -43,8 +43,8 @@ const emptyNodes: Node[] = [
     position: { x: 200, y: 180 },
     data: { label: 'Select an incident and click Recall Memory to visualize the knowledge graph' },
     style: {
-      background: '#161B22',
-      border: '1px dashed #30363D',
+      background: '#111214',
+      border: '1px dashed #202124',
       color: '#8B949E',
       borderRadius: 8,
       padding: '16px 24px',
@@ -95,16 +95,16 @@ export default function MemoryGraph({ recallResult, isRecalling }: Props) {
             <div style={{ textAlign: 'center', lineHeight: 1.3 }}>
               <div style={{ fontSize: 18 }}>{nodeEmoji[node.type] || '●'}</div>
               <div style={{ fontSize: 11, fontWeight: 600, color: '#E6EDF3', marginTop: 4 }}>{node.label}</div>
-              <div style={{ fontSize: 9, color: '#8B949E', fontFamily: 'JetBrains Mono, monospace', marginTop: 2 }}>{node.type}</div>
+              <div style={{ fontSize: 9, color: '#8B949E', fontFamily: 'Geist Mono, monospace', marginTop: 2 }}>{node.type}</div>
             </div>
           ),
         },
         style: {
-          background: '#161B22',
-          border: `2px solid ${nodeColors[node.type] || '#30363D'}`,
+          background: '#111214',
+          border: `2px solid ${nodeColors[node.type] || '#202124'}`,
           borderRadius: 10,
           padding: '10px 14px',
-          boxShadow: i === 0 ? `0 0 20px ${nodeColors[node.type] || '#7C3AED'}66` : 'none',
+          boxShadow: i === 0 ? `0 0 20px ${nodeColors[node.type] || '#16d05e'}66` : 'none',
           minWidth: 90,
         },
       };
@@ -117,11 +117,11 @@ export default function MemoryGraph({ recallResult, isRecalling }: Props) {
       label: edge.label,
       animated: edge.weight > 0.85,
       style: {
-        stroke: edge.weight > 0.85 ? '#7C3AED' : '#30363D',
+        stroke: edge.weight > 0.85 ? '#16d05e' : '#202124',
         strokeWidth: edge.weight > 0.85 ? 2 : 1,
       },
-      labelStyle: { fill: '#8B949E', fontSize: 9, fontFamily: 'JetBrains Mono, monospace' },
-      labelBgStyle: { fill: '#0D1117', opacity: 0.8 },
+      labelStyle: { fill: '#8B949E', fontSize: 9, fontFamily: 'Geist Mono, monospace' },
+      labelBgStyle: { fill: '#090a0c', opacity: 0.8 },
     }));
 
     setNodes(flowNodes);
@@ -129,7 +129,7 @@ export default function MemoryGraph({ recallResult, isRecalling }: Props) {
   }, [recallResult, setNodes, setEdges]);
 
   return (
-    <div style={{ flex: 1, width: '100%', height: '100%', position: 'relative', background: '#0D1117' }}>
+    <div style={{ flex: 1, width: '100%', height: '100%', position: 'relative', background: '#090a0c' }}>
       {isRecalling && (
         <div style={{
           position: 'absolute', inset: 0, zIndex: 10,
@@ -139,13 +139,13 @@ export default function MemoryGraph({ recallResult, isRecalling }: Props) {
         }}>
           <div className="cognee-pulse" style={{
             width: 52, height: 52,
-            background: 'rgba(124,58,237,0.18)',
-            border: '2px solid #7C3AED',
+            background: 'rgba(22,208,94,0.18)',
+            border: '2px solid #16d05e',
             borderRadius: '50%',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 24,
           }}>🧠</div>
-          <div style={{ fontFamily: 'JetBrains Mono, monospace', color: '#7C3AED', fontSize: 13 }}>recall() traversing graph…</div>
+          <div style={{ fontFamily: 'Geist Mono, monospace', color: '#16d05e', fontSize: 13 }}>recall() traversing graph…</div>
           <div style={{ fontSize: 11, color: '#8B949E' }}>Searching 347 memory nodes for similar incidents</div>
         </div>
       )}
@@ -161,9 +161,9 @@ export default function MemoryGraph({ recallResult, isRecalling }: Props) {
         style={{ width: '100%', height: '100%' }}
       >
         <Background variant={BackgroundVariant.Dots} gap={24} size={1} color="#21262D" />
-        <Controls style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 6 }} />
+        <Controls style={{ background: '#111214', border: '1px solid #202124', borderRadius: 6 }} />
         <MiniMap
-          style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 6 }}
+          style={{ background: '#111214', border: '1px solid #202124', borderRadius: 6 }}
           maskColor="rgba(13,17,23,0.7)"
         />
       </ReactFlow>

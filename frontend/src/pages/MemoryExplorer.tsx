@@ -44,7 +44,7 @@ export default function MemoryExplorer() {
   if (search) items = items.filter(i => i.title.toLowerCase().includes(search.toLowerCase()) || i.sub.toLowerCase().includes(search.toLowerCase()));
 
   const typeEmoji: Record<string, string> = { incident: '🚨', github_pr: '🔀', slack_thread: '💬', datadog_alert: '📊', runbook: '📋', deployment: '🚀' };
-  const typeColor: Record<string, string> = { incident: '#F85149', github_pr: '#8B949E', slack_thread: '#7C3AED', datadog_alert: '#D29922', runbook: '#3FB950', deployment: '#58A6FF' };
+  const typeColor: Record<string, string> = { incident: '#F85149', github_pr: '#8B949E', slack_thread: '#16d05e', datadog_alert: '#D29922', runbook: '#3FB950', deployment: '#58A6FF' };
 
   return (
     <div style={{ padding: 24, background: 'transparent', minHeight: '100vh' }}>
@@ -61,12 +61,12 @@ export default function MemoryExplorer() {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search memory nodes…"
-            style={{ width: '100%', background: '#161B22', border: '1px solid #30363D', borderRadius: 6, padding: '8px 12px 8px 32px', color: '#E6EDF3', fontSize: 13, outline: 'none', fontFamily: 'Inter, sans-serif' }}
+            style={{ width: '100%', background: '#111214', border: '1px solid #202124', borderRadius: 6, padding: '8px 12px 8px 32px', color: '#E6EDF3', fontSize: 13, outline: 'none', fontFamily: 'Geist, system-ui, sans-serif' }}
           />
         </div>
         <div style={{ display: 'flex', gap: 4 }}>
           {(['cards', 'table', 'timeline'] as ViewMode[]).map(v => (
-            <button key={v} onClick={() => setView(v)} style={{ background: view === v ? '#30363D' : 'transparent', border: '1px solid #30363D', borderRadius: 5, padding: '6px 12px', color: view === v ? '#E6EDF3' : '#8B949E', fontSize: 12, cursor: 'pointer' }}>
+            <button key={v} onClick={() => setView(v)} style={{ background: view === v ? '#202124' : 'transparent', border: '1px solid #202124', borderRadius: 5, padding: '6px 12px', color: view === v ? '#E6EDF3' : '#8B949E', fontSize: 12, cursor: 'pointer' }}>
               {v === 'cards' ? '⊞' : v === 'table' ? '☰' : '↔'} {v}
             </button>
           ))}
@@ -77,9 +77,9 @@ export default function MemoryExplorer() {
       <div style={{ display: 'flex', gap: 4, marginBottom: 16, flexWrap: 'wrap' }}>
         {filterTabs.map(tab => (
           <button key={tab.id} onClick={() => setFilter(tab.id)}
-            style={{ background: filter === tab.id ? 'rgba(124,58,237,0.15)' : 'transparent', border: `1px solid ${filter === tab.id ? 'rgba(124,58,237,0.4)' : '#30363D'}`, borderRadius: 5, padding: '5px 12px', color: filter === tab.id ? '#7C3AED' : '#8B949E', fontSize: 11, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}>
+            style={{ background: filter === tab.id ? 'rgba(22,208,94,0.15)' : 'transparent', border: `1px solid ${filter === tab.id ? 'rgba(22,208,94,0.4)' : '#202124'}`, borderRadius: 5, padding: '5px 12px', color: filter === tab.id ? '#16d05e' : '#8B949E', fontSize: 11, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}>
             {tab.label}
-            <span style={{ background: '#30363D', borderRadius: 100, padding: '1px 5px', fontSize: 9, color: '#8B949E' }}>{tab.count}</span>
+            <span style={{ background: '#202124', borderRadius: 100, padding: '1px 5px', fontSize: 9, color: '#8B949E' }}>{tab.count}</span>
           </button>
         ))}
       </div>
@@ -88,13 +88,13 @@ export default function MemoryExplorer() {
       {view === 'cards' && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12 }}>
           {items.map(item => (
-            <div key={item.id} style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 8, padding: '14px 16px', transition: 'border-color 0.15s', cursor: 'pointer' }}
+            <div key={item.id} style={{ background: '#111214', border: '1px solid #202124', borderRadius: 8, padding: '14px 16px', transition: 'border-color 0.15s', cursor: 'pointer' }}
               onMouseEnter={e => (e.currentTarget.style.borderColor = typeColor[item.type] + '55')}
-              onMouseLeave={e => (e.currentTarget.style.borderColor = '#30363D')}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = '#202124')}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
                 <span style={{ fontSize: 16 }}>{typeEmoji[item.type]}</span>
-                <code style={{ fontSize: 9, color: typeColor[item.type], fontFamily: 'JetBrains Mono, monospace', background: typeColor[item.type] + '15', padding: '2px 6px', borderRadius: 3 }}>{item.type}</code>
+                <code style={{ fontSize: 9, color: typeColor[item.type], fontFamily: 'Geist Mono, monospace', background: typeColor[item.type] + '15', padding: '2px 6px', borderRadius: 3 }}>{item.type}</code>
               </div>
               <div style={{ fontSize: 12, fontWeight: 600, color: '#E6EDF3', lineHeight: 1.4, marginBottom: 6 }}>{item.title.length > 70 ? item.title.slice(0, 70) + '…' : item.title}</div>
               <div style={{ fontSize: 11, color: '#8B949E' }}>{item.sub}</div>
@@ -109,10 +109,10 @@ export default function MemoryExplorer() {
       )}
 
       {view === 'table' && (
-        <div style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 8, overflow: 'hidden' }}>
+        <div style={{ background: '#111214', border: '1px solid #202124', borderRadius: 8, overflow: 'hidden' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
             <thead>
-              <tr style={{ borderBottom: '1px solid #30363D' }}>
+              <tr style={{ borderBottom: '1px solid #202124' }}>
                 {['Type', 'ID', 'Title', 'Source', 'Tags'].map(h => (
                   <th key={h} style={{ padding: '10px 14px', textAlign: 'left', color: '#8B949E', fontWeight: 500, fontSize: 11 }}>{h}</th>
                 ))}
@@ -125,7 +125,7 @@ export default function MemoryExplorer() {
                   onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                 >
                   <td style={{ padding: '9px 14px' }}><code style={{ fontSize: 10, color: typeColor[item.type] }}>{typeEmoji[item.type]} {item.type}</code></td>
-                  <td style={{ padding: '9px 14px' }}><code style={{ fontSize: 10, color: '#8B949E', fontFamily: 'JetBrains Mono, monospace' }}>{item.id}</code></td>
+                  <td style={{ padding: '9px 14px' }}><code style={{ fontSize: 10, color: '#8B949E', fontFamily: 'Geist Mono, monospace' }}>{item.id}</code></td>
                   <td style={{ padding: '9px 14px', color: '#E6EDF3', maxWidth: 300 }}>{item.title.length > 60 ? item.title.slice(0, 60) + '…' : item.title}</td>
                   <td style={{ padding: '9px 14px', color: '#8B949E' }}>{item.sub}</td>
                   <td style={{ padding: '9px 14px' }}>{item.tags.slice(0, 2).map(t => <span key={t} className="tag tag-muted" style={{ marginRight: 4 }}>{t}</span>)}</td>
@@ -138,13 +138,13 @@ export default function MemoryExplorer() {
 
       {view === 'timeline' && (
         <div style={{ position: 'relative', paddingLeft: 24 }}>
-          <div style={{ position: 'absolute', left: 8, top: 0, bottom: 0, width: 1, background: '#30363D' }} />
+          <div style={{ position: 'absolute', left: 8, top: 0, bottom: 0, width: 1, background: '#202124' }} />
           {items.filter(i => i.time).slice(0, 20).sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()).map(item => (
             <div key={item.id} style={{ position: 'relative', marginBottom: 14 }}>
-              <div style={{ position: 'absolute', left: -20, top: 6, width: 8, height: 8, borderRadius: '50%', background: typeColor[item.type], border: '2px solid #0D1117' }} />
-              <div style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 6, padding: '10px 14px' }}>
+              <div style={{ position: 'absolute', left: -20, top: 6, width: 8, height: 8, borderRadius: '50%', background: typeColor[item.type], border: '2px solid #090a0c' }} />
+              <div style={{ background: '#111214', border: '1px solid #202124', borderRadius: 6, padding: '10px 14px' }}>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 4 }}>
-                  <code style={{ fontSize: 9, color: typeColor[item.type], fontFamily: 'JetBrains Mono, monospace' }}>{item.type}</code>
+                  <code style={{ fontSize: 9, color: typeColor[item.type], fontFamily: 'Geist Mono, monospace' }}>{item.type}</code>
                   <span style={{ fontSize: 10, color: '#484F58' }}>{item.time ? new Date(item.time).toLocaleString() : ''}</span>
                 </div>
                 <div style={{ fontSize: 12, color: '#E6EDF3' }}>{item.title.length > 80 ? item.title.slice(0, 80) + '…' : item.title}</div>

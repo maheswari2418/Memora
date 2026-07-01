@@ -83,7 +83,7 @@ export default function LandingPage({ onLaunch }: Props) {
           display: inline-flex; align-items: center; justify-content: center;
           background: rgba(34,197,94,.1); border: 1px solid rgba(34,197,94,.25);
           border-radius: 4px; padding: 0 5px; font-size: 11px; font-weight: 700;
-          color: #22c55e; font-family: 'JetBrains Mono', monospace; vertical-align: middle;
+          color: #22c55e; font-family: 'Geist Mono', monospace; vertical-align: middle;
           cursor: pointer; transition: background .15s;
         }
         .cite-badge:hover { background: rgba(34,197,94,.25); }
@@ -111,11 +111,167 @@ export default function LandingPage({ onLaunch }: Props) {
           background: #111; border: 1px solid #252525; border-radius: 16px;
           padding: 60px; max-width: 1100px; margin: 0 auto;
         }
-        .stream-row {
-          display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+        .stream-row:last-child { border-bottom: none; }
+
+        /* Bento Grid Style definitions */
+        .bento-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 24px;
+          max-width: 1100px;
+          margin: 0 auto;
+        }
+        @media (max-width: 900px) {
+          .bento-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+        .bento-card {
+          background: #111;
+          border: 1px solid #252525;
+          border-radius: 16px;
+          padding: 32px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          min-height: 420px;
+        }
+        .bento-card-info {
+          margin-bottom: 24px;
+        }
+        .bento-card-title {
+          font-size: 20px;
+          font-weight: 700;
+          color: #f5f5f5;
+          margin-bottom: 8px;
+          letter-spacing: -0.01em;
+        }
+        .bento-card-desc {
+          font-size: 14px;
+          color: #888;
+          line-height: 1.5;
+        }
+        .hitl-grid-layout {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+        .policy-panel {
+          background: #1a1a1a;
+          border: 1px solid #2e2e2e;
+          border-radius: 12px;
+          overflow: hidden;
+        }
+        .policy-panel-header {
+          padding: 12px 18px;
+          border-bottom: 1px solid #252525;
+          font-size: 13px;
+          font-weight: 700;
+          color: #f5f5f5;
+        }
+        .policy-body { padding: 16px; }
+        .policy-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px 0;
+          border-bottom: 1px solid #252525;
+        }
+        .policy-label { font-size: 13px; color: #ccc; font-weight: 500; }
+        .policy-slider-wrap { padding: 10px 0 6px; border-bottom: 1px solid #252525; }
+        .policy-slider-label { font-size: 13px; color: #ccc; font-weight: 500; margin-bottom: 8px; }
+        .slider-track {
+          width: 100%;
+          height: 4px;
+          background: #333;
+          border-radius: 2px;
+          position: relative;
+          margin-bottom: 6px;
+        }
+        .slider-fill {
+          position: absolute;
+          left: 0; top: 0; bottom: 0;
+          width: 85%;
+          background: #22c55e;
+          border-radius: 2px;
+        }
+        .slider-thumb {
+          position: absolute;
+          width: 14px; height: 14px;
+          background: #ccc;
+          border-radius: 50%;
+          top: 50%; left: 85%;
+          transform: translate(-50%, -50%);
+          box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+        }
+        .slider-hint { font-size: 11px; color: #888; font-family: 'Geist Mono', monospace; }
+        .policy-impact {
+          margin-top: 10px;
+          font-size: 11px;
+          color: #888;
+          font-family: 'Geist Mono', monospace;
+        }
+        .chart-panel {
+          background: #1a1a1a;
+          border: 1px solid #2e2e2e;
+          border-radius: 12px;
+          padding: 18px;
+        }
+        .chart-title {
+          font-size: 13px;
+          font-weight: 700;
+          color: #f5f5f5;
+          margin-bottom: 12px;
+          font-family: 'Geist Mono', monospace;
+        }
+        .chart-area { position: relative; height: 130px; }
+        .chart-labels {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 6px;
+        }
+        .chart-label { font-size: 10px; color: #888; font-family: 'Geist Mono', monospace; }
+        .chart-svg { width: 100%; height: 130px; }
+        .audit-panel {
+          background: #1a1a1a;
+          border: 1px solid #2e2e2e;
+          border-radius: 12px;
+          overflow: hidden;
+        }
+        .audit-header {
+          padding: 12px 18px;
+          border-bottom: 1px solid #252525;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+        .audit-title { font-size: 13px; font-weight: 700; color: #f5f5f5; }
+        .audit-tabs {
+          display: flex;
+          gap: 6px;
+        }
+        .audit-live { display: flex; align-items: center; gap: 5px; }
+        .audit-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pulse 2s infinite; }
+        .audit-entry {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          padding: 10px 18px;
           border-bottom: 1px solid #222;
         }
-        .stream-row:last-child { border-bottom: none; }
+        .audit-icon { font-size: 16px; flex-shrink: 0; }
+        .audit-text { flex: 1; }
+        .audit-action { font-size: 12px; color: #f5f5f5; font-weight: 500; }
+        .audit-time { font-size: 10px; color: #888; font-family: 'Geist Mono', monospace; margin-top: 1px; }
+        .audit-footer {
+          padding: 10px 18px;
+          border-top: 1px solid #252525;
+          font-size: 11px;
+          color: #888;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
       `}</style>
 
       {/* ─── NAV ─── */}
@@ -163,7 +319,7 @@ export default function LandingPage({ onLaunch }: Props) {
             🏆 WEMAKEDEVS + COGNEE CHALLENGE SUBMISSION
           </div>
           <h1 style={{ fontSize: 64, fontWeight: 800, lineHeight: 1.08, letterSpacing: '-0.025em', marginBottom: 24, color: '#f5f5f5' }}>
-            The memory layer<br />for infrastructure<br />incidents.
+            The memory layer<br />for <span style={{ fontFamily: 'Instrument Serif, serif', fontStyle: 'italic', fontWeight: 400, color: '#16d05e' }}>infrastructure</span><br />incidents.
           </h1>
           <p style={{ fontSize: 16, color: '#888', lineHeight: 1.75, marginBottom: 36, maxWidth: 460 }}>
             Memora joins your alerts with your runbooks, commits, Slack threads, and past postmortems — then drafts the fix, fires the action, and cites every match.
@@ -194,7 +350,7 @@ export default function LandingPage({ onLaunch }: Props) {
                 <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#22c55e' }} />
               </div>
               <span style={{
-                fontSize: 9, fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 9, fontFamily: "'Geist Mono', monospace",
                 color: streamMode === 'backend' ? '#22c55e' : streamMode === 'simulation' ? '#f59e0b' : '#888',
                 display: 'flex', alignItems: 'center', gap: 4
               }}>
@@ -296,13 +452,13 @@ export default function LandingPage({ onLaunch }: Props) {
 
           {/* Cognee Hybrid Graph + Vector Memory Diagram */}
           <div style={{ marginTop: 60, padding: 40, background: '#111', border: '1px solid #252525', borderRadius: 12, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24 }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, textTransform: 'uppercase', color: '#22c55e', letterSpacing: '0.1em' }}>
+            <div style={{ fontFamily: "'Geist Mono', monospace", fontSize: 11, textTransform: 'uppercase', color: '#22c55e', letterSpacing: '0.1em' }}>
               Cognee Hybrid Memory Flow
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', maxWidth: 800, flexWrap: 'wrap', gap: 20 }}>
               {/* Sources */}
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 11, color: '#888', marginBottom: 8, fontFamily: "'JetBrains Mono', monospace" }}>SOURCES</div>
+                <div style={{ fontSize: 11, color: '#888', marginBottom: 8, fontFamily: "'Geist Mono', monospace" }}>SOURCES</div>
                 <div style={{ background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 8, padding: '12px 16px', fontSize: 13, fontWeight: 500, display: 'flex', flexDirection: 'column', gap: 6, textAlign: 'left' }}>
                   <span>💬 Slack Threads</span>
                   <span>🐙 GitHub Commits</span>
@@ -311,27 +467,27 @@ export default function LandingPage({ onLaunch }: Props) {
                 </div>
               </div>
               {/* Arrow */}
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, color: '#22c55e', fontFamily: "'JetBrains Mono', monospace", fontSize: 12 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, color: '#22c55e', fontFamily: "'Geist Mono', monospace", fontSize: 12 }}>
                 <span>remember()</span>
                 <span style={{ fontSize: 20 }}>➔</span>
               </div>
               {/* Cognee Engine */}
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 11, color: '#888', marginBottom: 8, fontFamily: "'JetBrains Mono', monospace" }}>COGNEE KNOWLEDGE ENGINE</div>
-                <div style={{ background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.3)', borderRadius: 8, padding: '16px 24px', fontSize: 13, fontWeight: 600, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div style={{ fontSize: 11, color: '#888', marginBottom: 8, fontFamily: "'Geist Mono', monospace" }}>COGNEE KNOWLEDGE ENGINE</div>
+                <div style={{ background: 'rgba(22,208,94,0.1)', border: '1px solid rgba(22,208,94,0.3)', borderRadius: 8, padding: '16px 24px', fontSize: 13, fontWeight: 600, display: 'flex', flexDirection: 'column', gap: 8 }}>
                   <span style={{ color: '#f5f5f5' }}>Graph Relationships</span>
                   <span style={{ color: '#555', fontWeight: 400 }}>+</span>
                   <span style={{ color: '#f5f5f5' }}>Semantic Vectors</span>
                 </div>
               </div>
               {/* Arrow */}
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, color: '#22c55e', fontFamily: "'JetBrains Mono', monospace", fontSize: 12 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, color: '#22c55e', fontFamily: "'Geist Mono', monospace", fontSize: 12 }}>
                 <span>recall()</span>
                 <span style={{ fontSize: 20 }}>➔</span>
               </div>
               {/* Best Answer */}
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 11, color: '#888', marginBottom: 8, fontFamily: "'JetBrains Mono', monospace" }}>RESOLVER</div>
+                <div style={{ fontSize: 11, color: '#888', marginBottom: 8, fontFamily: "'Geist Mono', monospace" }}>RESOLVER</div>
                 <div style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: 8, padding: '20px 24px', fontSize: 14, fontWeight: 700, color: '#22c55e' }}>
                   Best Answer +<br />Runbook Action
                 </div>
@@ -489,137 +645,157 @@ export default function LandingPage({ onLaunch }: Props) {
         </div>
       </section>
 
-      {/* ─── S6: HITL GATES ─── */}
-      <section style={{ padding: '80px 40px', background: '#0a0a0a' }}>
-        <div className="section-card" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
-          <div>
-            <h2 style={{ fontSize: 50, fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: 16 }}>HITL gates<br />you control.</h2>
-            <p style={{ fontSize: 15, color: '#888', lineHeight: 1.7 }}>You decide what Memora can do alone.</p>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            {[
-              { t: '< 5min', m: 'MTTR, 68%', a: 'Auto-resolve', hi: true },
-              { t: '5-30min', m: 'MTTR, 24%', a: 'One-click approval', hi: false },
-              { t: '> 30min', m: 'MTTR, 8%', a: 'Two-person review', hi: false },
-              { t: 'Custom policy', m: 'Configure gates', a: 'Edit rules →', green: true },
-            ].map(card => (
-              <div key={card.t} className="hitl-card" style={card.green ? { background: 'rgba(34,197,94,0.04)', borderColor: 'rgba(34,197,94,0.2)' } : card.hi ? { borderColor: '#3a3a3a' } : {}}>
-                <div style={{ fontSize: card.green ? 16 : 22, fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 4, color: card.green ? '#22c55e' : '#f5f5f5' }}>{card.t}</div>
-                <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 12, color: '#888', marginBottom: 12 }}>{card.m}</div>
-                <div style={{ fontSize: 13, color: card.green ? '#22c55e' : '#aaa', fontWeight: 500 }}>{card.a}</div>
-              </div>
-            ))}
-          </div>
+      {/* ─── GOVERNANCE & METRICS BENTO GRID ─── */}
+      <section id="governance-metrics" style={{ padding: '100px 40px', background: '#0a0a0a' }}>
+        <div className="bento-header" style={{ maxWidth: 1100, margin: '0 auto 50px', textAlign: 'left' }}>
+          <div className="bento-eyebrow">Control, Governance & Metrics</div>
+          <h2 className="bento-h2" style={{ fontSize: 'clamp(32px, 4vw, 48px)', fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: 16, color: '#f5f5f5' }}>
+            Complete control. Compounding performance.
+          </h2>
+          <p className="bento-sub" style={{ fontSize: 16, color: '#888', maxWidth: 600 }}>
+            Configure policies, verify actions, and watch your MTTR decline.
+          </p>
         </div>
-      </section>
-
-      {/* ─── S7: POLICY EDITOR ─── */}
-      <section style={{ padding: '80px 40px', background: '#0a0a0a' }}>
-        <div className="section-card" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
-          <div>
-            <h2 style={{ fontSize: 46, fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: 16 }}>Playbook policy.<br />Runbook rules<br />you can read.</h2>
-            <p style={{ fontSize: 15, color: '#888', lineHeight: 1.7 }}>Define exactly which incidents Memora resolves autonomously, which require one-click approval, and which demand two-person review. Plain language policy — no YAML archaeology.</p>
+        <div className="bento-grid">
+          {/* Card 1: HITL Gates */}
+          <div className="bento-card">
+            <div className="bento-card-info">
+              <h3 className="bento-card-title">HITL Gates</h3>
+              <p className="bento-card-desc">Define which intervals Memora resolves autonomously versus routing to human approval.</p>
+            </div>
+            <div className="hitl-grid-layout">
+              <div className="hitl-card active">
+                <div className="hitl-threshold">&lt; 5min</div>
+                <div className="hitl-mttr">MTTR, 68%</div>
+                <div className="hitl-action">Auto-resolve</div>
+              </div>
+              <div className="hitl-card">
+                <div className="hitl-threshold">5-30min</div>
+                <div className="hitl-mttr">MTTR, 24%</div>
+                <div className="hitl-action">One-click approval</div>
+              </div>
+              <div className="hitl-card">
+                <div className="hitl-threshold">&gt; 30min</div>
+                <div className="hitl-mttr">MTTR, 8%</div>
+                <div className="hitl-action">Two-person review</div>
+              </div>
+              <div className="hitl-card" style={{ background: 'rgba(34,197,94,0.04)', borderColor: 'rgba(34,197,94,0.2)' }}>
+                <div className="hitl-threshold" style={{ fontSize: 16, color: '#22c55e' }}>Custom policy</div>
+                <div className="hitl-mttr">Configure gates</div>
+                <div className="hitl-action" style={{ color: '#22c55e' }}>Edit rules →</div>
+              </div>
+            </div>
           </div>
-          <div style={{ background: '#1a1a1a', border: '1px solid #2e2e2e', borderRadius: 12, overflow: 'hidden' }}>
-            <div style={{ padding: '16px 20px', borderBottom: '1px solid #252525', fontSize: 14, fontWeight: 700 }}>Playbook Policy</div>
-            <div style={{ padding: 20 }}>
-              {[['Auto-resolve incidents',true],['Services 90+ days stable',true]].map(([label, _on], i) => i === 0 ? (
-                <div key={String(label)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 0', borderBottom: '1px solid #252525' }}>
-                  <span style={{ fontSize: 14, color: '#ccc', fontWeight: 500 }}>{String(label)}</span>
+
+          {/* Card 2: Playbook Policy */}
+          <div className="bento-card">
+            <div className="bento-card-info">
+              <h3 className="bento-card-title">Playbook Policy</h3>
+              <p className="bento-card-desc">Define auto-resolution thresholds and rule exclusions in plain English.</p>
+            </div>
+            <div className="policy-panel">
+              <div className="policy-panel-header">Playbook Policy</div>
+              <div className="policy-body">
+                <div className="policy-row">
+                  <span className="policy-label">Auto-resolve incidents</span>
                   <div className="toggle-switch" />
                 </div>
-              ) : null)}
-              {/* Slider */}
-              <div style={{ padding: '14px 0', borderBottom: '1px solid #252525' }}>
-                <div style={{ fontSize: 14, color: '#ccc', fontWeight: 500, marginBottom: 12 }}>Confidence threshold</div>
-                <div style={{ width: '100%', height: 4, background: '#333', borderRadius: 2, position: 'relative', marginBottom: 6 }}>
-                  <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '85%', background: '#22c55e', borderRadius: 2 }} />
-                  <div style={{ position: 'absolute', width: 18, height: 18, background: '#ccc', borderRadius: '50%', top: '50%', left: '85%', transform: 'translate(-50%,-50%)', boxShadow: '0 2px 6px rgba(0,0,0,.5)' }} />
+                <div className="policy-slider-wrap">
+                  <div className="policy-slider-label">Confidence threshold</div>
+                  <div className="slider-track">
+                    <div className="slider-fill" />
+                    <div className="slider-thumb" />
+                  </div>
+                  <div className="slider-hint">85% minimum match confidence</div>
                 </div>
-                <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: '#888' }}>85% minimum match confidence</div>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 0', borderBottom: '1px solid #252525' }}>
-                <span style={{ fontSize: 14, color: '#ccc', fontWeight: 500 }}>Services 90+ days stable</span>
-                <div className="toggle-switch" />
-              </div>
-              <div style={{ marginTop: 14, fontFamily: "'JetBrains Mono',monospace", fontSize: 12, color: '#888' }}>
-                Impact: <strong style={{ color: '#22c55e' }}>31/47</strong> alerts auto-resolved
+                <div className="policy-row">
+                  <span className="policy-label">Services 90+ days stable</span>
+                  <div className="toggle-switch" />
+                </div>
+                <div className="policy-impact">Impact: <strong style={{ color: '#22c55e' }}>31/47</strong> alerts auto-resolved</div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* ─── S8: COMPOUNDING ─── */}
-      <section style={{ padding: '80px 40px', background: '#0a0a0a' }}>
-        <div className="section-card" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
-          <div>
-            <h2 style={{ fontSize: 46, fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: 24 }}>Compounding<br />memory.<br />Compounds with<br />your SRE team.</h2>
-            <div style={{ fontSize: 15, color: '#888' }}>
-              <strong style={{ color: '#f5f5f5', fontSize: 28, fontWeight: 800 }}>4 min</strong> MTTR (wk 12 of 12)
-              <div style={{ fontSize: 13, color: '#888', marginTop: 4 }}>was 42 min 12 weeks ago</div>
+          {/* Card 3: Compounding Memory */}
+          <div className="bento-card">
+            <div className="bento-card-info">
+              <h3 className="bento-card-title">Compounding Memory</h3>
+              <p className="bento-card-desc">As the knowledge graph scales, resolution pathways optimize, lowering MTTR over time.</p>
+            </div>
+            <div className="chart-panel">
+              <div className="chart-title">MTTR Trend</div>
+              <div className="chart-area">
+                <svg className="chart-svg" viewBox="0 0 400 160" preserveAspectRatio="none">
+                  <line x1="0" y1="0" x2="400" y2="0" stroke="#2a2a2a" strokeWidth="1" />
+                  <line x1="0" y1="40" x2="400" y2="40" stroke="#2a2a2a" strokeWidth="1" />
+                  <line x1="0" y1="80" x2="400" y2="80" stroke="#2a2a2a" strokeWidth="1" />
+                  <line x1="0" y1="120" x2="400" y2="120" stroke="#2a2a2a" strokeWidth="1" />
+                  <line x1="0" y1="160" x2="400" y2="160" stroke="#2a2a2a" strokeWidth="1" />
+                  <defs>
+                    <linearGradient id="chartGradReact" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#22c55e" stopOpacity="0.3" />
+                      <stop offset="100%" stopColor="#22c55e" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M 0 8 C 40 10, 80 18, 120 32 C 160 50, 180 68, 220 88 C 260 108, 300 128, 340 142 C 360 148, 380 152, 400 155 L 400 160 L 0 160 Z" fill="url(#chartGradReact)" />
+                  <path d="M 0 8 C 40 10, 80 18, 120 32 C 160 50, 180 68, 220 88 C 260 108, 300 128, 340 142 C 360 148, 380 152, 400 155" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <text x="4" y="18" fill="#888" fontSize="10" fontFamily="monospace">42 min</text>
+                  <text x="340" y="154" fill="#888" fontSize="10" fontFamily="monospace">4 min</text>
+                </svg>
+              </div>
+              <div className="chart-labels">
+                <span className="chart-label">Wk 1</span>
+                <span className="chart-label">Wk 3</span>
+                <span className="chart-label">Wk 6</span>
+                <span className="chart-label">Wk 9</span>
+                <span className="chart-label">Wk 12</span>
+              </div>
             </div>
           </div>
-          <div style={{ background: '#1a1a1a', border: '1px solid #2e2e2e', borderRadius: 12, padding: 24 }}>
-            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 14, fontWeight: 700, marginBottom: 20 }}>MTTR Trend</div>
-            <svg width="100%" height="160" viewBox="0 0 400 160" preserveAspectRatio="none">
-              <line x1="0" y1="0" x2="400" y2="0" stroke="#2a2a2a" strokeWidth="1"/>
-              <line x1="0" y1="40" x2="400" y2="40" stroke="#2a2a2a" strokeWidth="1"/>
-              <line x1="0" y1="80" x2="400" y2="80" stroke="#2a2a2a" strokeWidth="1"/>
-              <line x1="0" y1="120" x2="400" y2="120" stroke="#2a2a2a" strokeWidth="1"/>
-              <defs>
-                <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#22c55e" stopOpacity="0.3"/>
-                  <stop offset="100%" stopColor="#22c55e" stopOpacity="0"/>
-                </linearGradient>
-              </defs>
-              <path d="M 0 8 C 40 10,80 18,120 32 C 160 50,180 68,220 88 C 260 108,300 128,340 142 C 360 148,380 152,400 155 L 400 160 L 0 160 Z" fill="url(#g)"/>
-              <path d="M 0 8 C 40 10,80 18,120 32 C 160 50,180 68,220 88 C 260 108,300 128,340 142 C 360 148,380 152,400 155" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round"/>
-              <text x="4" y="18" fill="#888" fontSize="10" fontFamily="monospace">42 min</text>
-              <text x="340" y="154" fill="#888" fontSize="10" fontFamily="monospace">4 min</text>
-            </svg>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}>
-              {['Wk 1','Wk 3','Wk 6','Wk 9','Wk 12'].map(w => (
-                <span key={w} style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: '#888' }}>{w}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ─── S9: AUDIT LOG ─── */}
-      <section style={{ padding: '80px 40px', background: '#0a0a0a' }}>
-        <div className="section-card" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
-          <div>
-            <div style={{ fontSize: 46, fontWeight: 800, letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: 16 }}>
-              <span style={{ color: '#555' }}>Audit trail.</span><br />
-              <span style={{ color: '#f5f5f5' }}>Audit log on<br />every action.</span>
+          {/* Card 4: Audit Trail */}
+          <div className="bento-card">
+            <div className="bento-card-info">
+              <h3 className="bento-card-title">Audit Trail</h3>
+              <p className="bento-card-desc">Every action, approval, and automated rollback is cryptographically logged and exportable.</p>
             </div>
-            <p style={{ fontSize: 15, color: '#888', lineHeight: 1.7 }}>Every action Memora takes — every approval you give, every rollback it executes — is signed and exportable to your SIEM.</p>
-          </div>
-          <div style={{ background: '#1a1a1a', border: '1px solid #2e2e2e', borderRadius: 12, overflow: 'hidden' }}>
-            <div style={{ padding: '16px 20px', borderBottom: '1px solid #252525', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: 14, fontWeight: 700 }}>Audit Log</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <div style={{ display: 'flex', gap: 6 }}>
-                  {[['all','8'],['you','3'],['memora','5']].map(([l,n]) => (
-                    <span key={l} className="audit-tab">{l} <span style={{ background: '#333', borderRadius: 3, padding: '0 4px', fontSize: 10, fontFamily: "'JetBrains Mono',monospace", color: '#888' }}>{n}</span></span>
-                  ))}
-                </div>
-                <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', display: 'inline-block', animation: 'pulse 2s infinite' }} />
-              </div>
-            </div>
-            {[['👤','You approved INC-7731 · checkout-service','6m ago'],['🤖','Memora rolled back payment-gateway','8m ago'],['👤','You approved INC-7728 · catalog-service','14m ago']].map(([icon,action,time]) => (
-              <div key={action} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '14px 20px', borderBottom: '1px solid #222' }}>
-                <span style={{ fontSize: 18 }}>{icon}</span>
-                <div>
-                  <div style={{ fontSize: 13, color: '#f5f5f5', fontWeight: 500 }}>{action}</div>
-                  <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: '#888', marginTop: 2 }}>{time}</div>
+            <div className="audit-panel">
+              <div className="audit-header">
+                <span className="audit-title">Audit Log</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <div className="audit-tabs">
+                    <span className="audit-tab" style={{ fontSize: 10, background: '#252525', border: '1px solid #333', borderRadius: 5, padding: '2px 7px', color: '#aaa', display: 'flex', alignItems: 'center', gap: 4 }}>all <span style={{ background: '#333', borderRadius: 3, padding: '0 3px', fontSize: 9, fontFamily: "'JetBrains Mono',monospace", color: '#888' }}>8</span></span>
+                    <span className="audit-tab" style={{ fontSize: 10, background: '#252525', border: '1px solid #333', borderRadius: 5, padding: '2px 7px', color: '#aaa', display: 'flex', alignItems: 'center', gap: 4 }}>you <span style={{ background: '#333', borderRadius: 3, padding: '0 3px', fontSize: 9, fontFamily: "'JetBrains Mono',monospace", color: '#888' }}>3</span></span>
+                    <span className="audit-tab" style={{ fontSize: 10, background: '#252525', border: '1px solid #333', borderRadius: 5, padding: '2px 7px', color: '#aaa', display: 'flex', alignItems: 'center', gap: 4 }}>memora <span style={{ background: '#333', borderRadius: 3, padding: '0 3px', fontSize: 9, fontFamily: "'JetBrains Mono',monospace", color: '#888' }}>5</span></span>
+                  </div>
+                  <div className="audit-live"><div className="audit-dot" /></div>
                 </div>
               </div>
-            ))}
-            <div style={{ padding: '12px 20px', borderTop: '1px solid #252525', fontSize: 12, color: '#888', display: 'flex', alignItems: 'center', gap: 6 }}>
-              ✓ signed and exportable to SIEM
+              <div className="audit-entry">
+                <span className="audit-icon">👤</span>
+                <div className="audit-text">
+                  <div className="audit-action">You approved INC-7731 · checkout-service</div>
+                  <div className="audit-time">6m ago</div>
+                </div>
+              </div>
+              <div className="audit-entry">
+                <span className="audit-icon">🤖</span>
+                <div className="audit-text">
+                  <div className="audit-action">Memora rolled back payment-gateway</div>
+                  <div className="audit-time">8m ago</div>
+                </div>
+              </div>
+              <div className="audit-entry">
+                <span className="audit-icon">👤</span>
+                <div className="audit-text">
+                  <div className="audit-action">You approved INC-7728 · catalog-service</div>
+                  <div className="audit-time">14m ago</div>
+                </div>
+              </div>
+              <div className="audit-footer">
+                <span>✓</span> signed and exportable to SIEM
+              </div>
             </div>
           </div>
         </div>

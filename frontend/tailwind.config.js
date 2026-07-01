@@ -4,11 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: '#0D1117',
-        panel: '#161B22',
-        border: '#30363D',
-        purple: '#7C3AED',
-        'purple-dim': '#5B21B6',
+        bg: '#090a0c',
+        panel: '#111214',
+        border: '#202124',
+        purple: '#16d05e',
+        'purple-dim': '#11a34a',
         blue: '#58A6FF',
         green: '#3FB950',
         amber: '#D29922',
@@ -32,8 +32,8 @@ export default {
       },
       keyframes: {
         glow: {
-          from: { boxShadow: '0 0 4px #7C3AED55' },
-          to: { boxShadow: '0 0 16px #7C3AEDaa, 0 0 4px #7C3AED' },
+          from: { boxShadow: '0 0 4px #16d05e55' },
+          to: { boxShadow: '0 0 16px #16d05eaa, 0 0 4px #16d05e' },
         },
       },
       boxShadow: {

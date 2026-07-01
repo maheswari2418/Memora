@@ -39,7 +39,7 @@ export default function MotionWallpaper() {
         vx: (Math.random() - 0.5) * 0.25,
         vy: (Math.random() - 0.5) * 0.25,
         radius: Math.random() * 2 + 1,
-        color: Math.random() > 0.5 ? 'rgba(34,197,94,0.32)' : 'rgba(124,58,237,0.32)',
+        color: Math.random() > 0.5 ? 'rgba(34,197,94,0.32)' : 'rgba(22,208,94,0.32)',
       });
     }
 
@@ -55,7 +55,7 @@ export default function MotionWallpaper() {
         w / 2, h, Math.max(w, h) * 0.6
       );
       gradient.addColorStop(0, 'rgba(210, 153, 34, 0.08)'); // Warm Gold Sand
-      gradient.addColorStop(0.5, 'rgba(124, 58, 237, 0.03)'); // Soft Purple
+      gradient.addColorStop(0.5, 'rgba(22, 208, 94, 0.03)'); // Soft Purple
       gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, w, h);

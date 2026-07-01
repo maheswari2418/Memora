@@ -2,21 +2,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { CogneeActivity } from '../types';
 
 const opColors: Record<string, string> = {
-  remember: '#7C3AED',
+  remember: '#16d05e',
   recall: '#58A6FF',
   improve: '#3FB950',
   forget: '#D29922',
 };
 
 const opBg: Record<string, string> = {
-  remember: 'rgba(124,58,237,0.1)',
+  remember: 'rgba(22,208,94,0.1)',
   recall: 'rgba(88,166,255,0.1)',
   improve: 'rgba(63,185,80,0.1)',
   forget: 'rgba(210,153,34,0.1)',
 };
 
 const opBorder: Record<string, string> = {
-  remember: 'rgba(124,58,237,0.28)',
+  remember: 'rgba(22,208,94,0.28)',
   recall: 'rgba(88,166,255,0.28)',
   improve: 'rgba(63,185,80,0.28)',
   forget: 'rgba(210,153,34,0.28)',
@@ -30,8 +30,8 @@ export default function CogneeActivityBar({ activities }: Props) {
   return (
     <div style={{
       height: 52,
-      background: '#0D1117',
-      borderTop: '1px solid #30363D',
+      background: '#090a0c',
+      borderTop: '1px solid #202124',
       display: 'flex',
       alignItems: 'center',
       padding: '0 16px',
@@ -39,7 +39,7 @@ export default function CogneeActivityBar({ activities }: Props) {
       overflowX: 'auto',
       flexShrink: 0,
     }}>
-      <span style={{ fontSize: 10, color: '#484F58', fontFamily: 'JetBrains Mono, monospace', flexShrink: 0, marginRight: 4 }}>
+      <span style={{ fontSize: 10, color: '#484F58', fontFamily: 'Geist Mono, monospace', flexShrink: 0, marginRight: 4 }}>
         Cognee:
       </span>
       {activities.length === 0 && (
@@ -58,7 +58,7 @@ export default function CogneeActivityBar({ activities }: Props) {
               alignItems: 'center',
               gap: 6,
               background: opBg[act.operation] || 'rgba(48,54,61,0.4)',
-              border: `1px solid ${opBorder[act.operation] || '#30363D'}`,
+              border: `1px solid ${opBorder[act.operation] || '#202124'}`,
               borderRadius: 100,
               padding: '3px 10px',
               flexShrink: 0,
@@ -79,7 +79,7 @@ export default function CogneeActivityBar({ activities }: Props) {
             />
             <code style={{
               fontSize: 10,
-              fontFamily: 'JetBrains Mono, monospace',
+              fontFamily: 'Geist Mono, monospace',
               color: opColors[act.operation] || '#8B949E',
               fontWeight: 700,
             }}>

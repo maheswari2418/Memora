@@ -166,7 +166,7 @@ export default function OpsCenter() {
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: 'transparent', overflow: 'hidden' }}>
       {/* ── Header ── */}
       <div style={{
-        height: 48, borderBottom: '1px solid #30363D', flexShrink: 0,
+        height: 48, borderBottom: '1px solid #202124', flexShrink: 0,
         display: 'flex', alignItems: 'center', padding: '0 18px', justifyContent: 'space-between',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -187,7 +187,7 @@ export default function OpsCenter() {
           {/* Stream status pill */}
           <span style={{
             display: 'inline-flex', alignItems: 'center', gap: 5,
-            fontSize: 10, fontFamily: 'JetBrains Mono, monospace',
+            fontSize: 10, fontFamily: 'Geist Mono, monospace',
             color: streamMode === 'backend' ? '#3FB950' : streamMode === 'simulation' ? '#D29922' : '#8B949E',
           }}>
             <span style={{
@@ -220,7 +220,7 @@ export default function OpsCenter() {
             <motion.span
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              style={{ fontSize: 11, color: '#3FB950', display: 'flex', alignItems: 'center', gap: 5, fontFamily: 'JetBrains Mono, monospace' }}
+              style={{ fontSize: 11, color: '#3FB950', display: 'flex', alignItems: 'center', gap: 5, fontFamily: 'Geist Mono, monospace' }}
             >
               <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#3FB950', display: 'inline-block', animation: 'cogneePulse 2s infinite' }} />
               Memory Active · {incidents.length * 8 + 47} nodes
@@ -241,7 +241,7 @@ export default function OpsCenter() {
       {/* ── Main Content ── */}
       <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
         {/* Left: Incident Queue */}
-        <div style={{ width: 248, borderRight: '1px solid #30363D', flexShrink: 0, overflow: 'hidden' }}>
+        <div style={{ width: 248, borderRight: '1px solid #202124', flexShrink: 0, overflow: 'hidden' }}>
           <IncidentQueue
             incidents={incidents}
             selected={selectedIncident}
@@ -254,44 +254,44 @@ export default function OpsCenter() {
         {/* Center: Knowledge Graph */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
           <div style={{
-            height: 36, borderBottom: '1px solid #30363D', flexShrink: 0,
+            height: 36, borderBottom: '1px solid #202124', flexShrink: 0,
             display: 'flex', alignItems: 'center', padding: '0 16px', gap: 10,
           }}>
-            <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'JetBrains Mono, monospace' }}>
+            <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'Geist Mono, monospace' }}>
               {recallResult
                 ? `recall() · ${recallResult.nodes.length} nodes · ${recallResult.edges.length} edges`
                 : 'Knowledge Graph · Select incident → Recall Memory'}
             </span>
             {recallResult && (
-              <span style={{ fontSize: 10, color: '#3FB950', fontFamily: 'JetBrains Mono, monospace' }}>
+              <span style={{ fontSize: 10, color: '#3FB950', fontFamily: 'Geist Mono, monospace' }}>
                 ✓ {recallResult.confidence}% confidence
               </span>
             )}
           </div>
           {/* Graph Section */}
-          <div style={{ height: '65%', borderBottom: '1px solid #30363D', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ height: '65%', borderBottom: '1px solid #202124', position: 'relative', overflow: 'hidden' }}>
             <MemoryGraph recallResult={recallResult} isRecalling={isRecalling} />
           </div>
 
           {/* Cognee Memory Engine Lifecycle Console */}
-          <div style={{ height: '35%', display: 'flex', flexDirection: 'column', background: '#111318', padding: '12px 16px', overflowY: 'auto', borderTop: '1px solid #30363D' }}>
+          <div style={{ height: '35%', display: 'flex', flexDirection: 'column', background: '#111318', padding: '12px 16px', overflowY: 'auto', borderTop: '1px solid #202124' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexShrink: 0 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#7C3AED', display: 'inline-block', animation: 'cogneePulse 2s infinite' }} />
-                <span style={{ fontSize: 11, fontWeight: 700, color: '#E6EDF3', fontFamily: 'JetBrains Mono, monospace', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#16d05e', display: 'inline-block', animation: 'cogneePulse 2s infinite' }} />
+                <span style={{ fontSize: 11, fontWeight: 700, color: '#E6EDF3', fontFamily: 'Geist Mono, monospace', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   🟣 Cognee Memory Engine Console
                 </span>
               </div>
-              <span style={{ fontSize: 10, color: '#8B949E', fontFamily: 'JetBrains Mono, monospace' }}>
+              <span style={{ fontSize: 10, color: '#8B949E', fontFamily: 'Geist Mono, monospace' }}>
                 Active Session Memory Logs
               </span>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, flex: 1 }}>
               {/* Card 1: remember() */}
-              <div style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 8, padding: 12, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div style={{ background: '#111214', border: '1px solid #202124', borderRadius: 8, padding: 12, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
-                  <div style={{ fontSize: 10, fontFamily: 'JetBrains Mono, monospace', color: '#7C3AED', fontWeight: 700, marginBottom: 4 }}>remember()</div>
+                  <div style={{ fontSize: 10, fontFamily: 'Geist Mono, monospace', color: '#16d05e', fontWeight: 700, marginBottom: 4 }}>remember()</div>
                   <div style={{ fontSize: 12, fontWeight: 600, color: '#E6EDF3', marginBottom: 6 }}>Ingestion Status</div>
                 </div>
                 <div>
@@ -306,14 +306,14 @@ export default function OpsCenter() {
               </div>
 
               {/* Card 2: recall() */}
-              <div style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 8, padding: 12, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div style={{ background: '#111214', border: '1px solid #202124', borderRadius: 8, padding: 12, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
-                  <div style={{ fontSize: 10, fontFamily: 'JetBrains Mono, monospace', color: '#58A6FF', fontWeight: 700, marginBottom: 4 }}>recall()</div>
+                  <div style={{ fontSize: 10, fontFamily: 'Geist Mono, monospace', color: '#58A6FF', fontWeight: 700, marginBottom: 4 }}>recall()</div>
                   <div style={{ fontSize: 12, fontWeight: 600, color: '#E6EDF3', marginBottom: 6 }}>Context Retrieval</div>
                 </div>
                 <div>
                   {isRecalling ? (
-                    <div style={{ fontSize: 11, color: '#7C3AED', animation: 'pulse 1s infinite' }}>traversing graph...</div>
+                    <div style={{ fontSize: 11, color: '#16d05e', animation: 'pulse 1s infinite' }}>traversing graph...</div>
                   ) : recallResult ? (
                     <div style={{ fontSize: 11, color: '#58A6FF' }}>✓ Matched {selectedIncident?.previousMatches || 4} incidents</div>
                   ) : (
@@ -323,9 +323,9 @@ export default function OpsCenter() {
               </div>
 
               {/* Card 3: improve() */}
-              <div style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 8, padding: 12, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div style={{ background: '#111214', border: '1px solid #202124', borderRadius: 8, padding: 12, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
-                  <div style={{ fontSize: 10, fontFamily: 'JetBrains Mono, monospace', color: '#3FB950', fontWeight: 700, marginBottom: 4 }}>improve()</div>
+                  <div style={{ fontSize: 10, fontFamily: 'Geist Mono, monospace', color: '#3FB950', fontWeight: 700, marginBottom: 4 }}>improve()</div>
                   <div style={{ fontSize: 12, fontWeight: 600, color: '#E6EDF3', marginBottom: 6 }}>Memory Reinforcement</div>
                 </div>
                 <div>
@@ -340,9 +340,9 @@ export default function OpsCenter() {
               </div>
 
               {/* Card 4: forget() */}
-              <div style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 8, padding: 12, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div style={{ background: '#111214', border: '1px solid #202124', borderRadius: 8, padding: 12, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
-                  <div style={{ fontSize: 10, fontFamily: 'JetBrains Mono, monospace', color: '#D29922', fontWeight: 700, marginBottom: 4 }}>forget()</div>
+                  <div style={{ fontSize: 10, fontFamily: 'Geist Mono, monospace', color: '#D29922', fontWeight: 700, marginBottom: 4 }}>forget()</div>
                   <div style={{ fontSize: 12, fontWeight: 600, color: '#E6EDF3', marginBottom: 6 }}>Surgical Pruning</div>
                 </div>
                 <div>
@@ -354,12 +354,12 @@ export default function OpsCenter() {
         </div>
 
         {/* Right: Investigation Panel */}
-        <div style={{ width: 340, borderLeft: '1px solid #30363D', flexShrink: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div style={{ width: 340, borderLeft: '1px solid #202124', flexShrink: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           <div style={{
-            height: 36, borderBottom: '1px solid #30363D', flexShrink: 0,
+            height: 36, borderBottom: '1px solid #202124', flexShrink: 0,
             display: 'flex', alignItems: 'center', padding: '0 14px',
           }}>
-            <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'JetBrains Mono, monospace' }}>Investigation Brief</span>
+            <span style={{ fontSize: 11, color: '#8B949E', fontFamily: 'Geist Mono, monospace' }}>Investigation Brief</span>
           </div>
           <div style={{ flex: 1, overflow: 'hidden' }}>
             <InvestigationPanel

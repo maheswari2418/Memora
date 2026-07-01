@@ -55,26 +55,26 @@ function Sidebar({ currentPage, onNavigate }: { currentPage: Page; onNavigate: (
   return (
     <div style={{
       width: 220,
-      background: '#161B22',
-      borderRight: '1px solid #30363D',
+      background: '#111214',
+      borderRight: '1px solid #202124',
       display: 'flex',
       flexDirection: 'column',
       padding: '0',
       flexShrink: 0,
     }}>
       {/* Logo */}
-      <div style={{ padding: '20px 16px 16px', borderBottom: '1px solid #30363D' }}>
+      <div style={{ padding: '20px 16px 16px', borderBottom: '1px solid #202124' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <div style={{
             width: 28, height: 28,
-            background: 'linear-gradient(135deg,#7C3AED,#5B21B6)',
+            background: 'linear-gradient(135deg,#16d05e,#11a34a)',
             borderRadius: 6,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 14,
           }}>🧠</div>
           <div>
             <div style={{ fontWeight: 700, fontSize: 14, color: '#E6EDF3' }}>Memora</div>
-            <div style={{ fontSize: 10, color: '#8B949E', fontFamily: 'JetBrains Mono, monospace' }}>v1.0.0-alpha</div>
+            <div style={{ fontSize: 10, color: '#8B949E', fontFamily: 'Geist Mono, monospace' }}>v1.0.0-alpha</div>
           </div>
         </div>
       </div>
@@ -94,14 +94,14 @@ function Sidebar({ currentPage, onNavigate }: { currentPage: Page; onNavigate: (
               borderRadius: 6,
               border: 'none',
               cursor: 'pointer',
-              background: currentPage === item.id ? 'rgba(124,58,237,0.15)' : 'transparent',
-              color: currentPage === item.id ? '#7C3AED' : '#8B949E',
+              background: currentPage === item.id ? 'rgba(22,208,94,0.15)' : 'transparent',
+              color: currentPage === item.id ? '#16d05e' : '#8B949E',
               fontSize: 13,
               fontWeight: currentPage === item.id ? 600 : 400,
               textAlign: 'left',
               marginBottom: 2,
               transition: 'all 0.15s',
-              borderLeft: currentPage === item.id ? '2px solid #7C3AED' : '2px solid transparent',
+              borderLeft: currentPage === item.id ? '2px solid #16d05e' : '2px solid transparent',
             }}
           >
             <span style={{ fontSize: 14 }}>{item.icon}</span>
@@ -111,12 +111,12 @@ function Sidebar({ currentPage, onNavigate }: { currentPage: Page; onNavigate: (
       </nav>
 
       {/* Bottom */}
-      <div style={{ padding: '12px 16px', borderTop: '1px solid #30363D' }}>
+      <div style={{ padding: '12px 16px', borderTop: '1px solid #202124' }}>
         <button
           onClick={() => onNavigate('landing')}
           style={{ width: '100%', textAlign: 'left', background: 'none', border: 'none', color: '#8B949E', fontSize: 12, cursor: 'pointer', padding: '4px 0' }}
         >← Back to Home</button>
-        <div style={{ marginTop: 8, fontSize: 10, color: '#484F58', fontFamily: 'JetBrains Mono, monospace' }}>Powered by Cognee</div>
+        <div style={{ marginTop: 8, fontSize: 10, color: '#484F58', fontFamily: 'Geist Mono, monospace' }}>Powered by Cognee</div>
       </div>
     </div>
   );

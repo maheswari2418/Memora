@@ -111,7 +111,7 @@ export default function NeuralBackground() {
           </g>
 
           {/* HUD Labeled Text (with JetBrains Mono styling) */}
-          <g fill="rgba(255, 255, 255, 0.85)" fontFamily="'JetBrains Mono', monospace" fontSize="10.5" fontWeight="600">
+          <g fill="rgba(255, 255, 255, 0.85)" fontFamily="'Geist Mono', monospace" fontSize="10.5" fontWeight="600">
             <text x="-245" y="-83" textAnchor="start">remember()</text>
             <text x="192" y="-83" textAnchor="start">recall()</text>
             <text x="-225" y="74" textAnchor="start">improve()</text>

@@ -20,13 +20,13 @@ export default function Postmortem() {
 
   const fieldStyle = {
     width: '100%',
-    background: '#161B22',
-    border: '1px solid #30363D',
+    background: '#111214',
+    border: '1px solid #202124',
     borderRadius: 6,
     padding: '10px 12px',
     color: '#E6EDF3',
     fontSize: 13,
-    fontFamily: 'Inter, sans-serif',
+    fontFamily: 'Geist, system-ui, sans-serif',
     outline: 'none',
     lineHeight: 1.6,
     resize: 'vertical' as const,
@@ -45,13 +45,13 @@ export default function Postmortem() {
       {saved && (
         <div style={{ background: 'rgba(63,185,80,0.1)', border: '1px solid rgba(63,185,80,0.3)', borderRadius: 6, padding: '10px 14px', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
           <span>✅</span>
-          <span style={{ fontSize: 13, color: '#3FB950', fontFamily: 'JetBrains Mono, monospace' }}>Memory successfully enriched. Graph updated.</span>
+          <span style={{ fontSize: 13, color: '#3FB950', fontFamily: 'Geist Mono, monospace' }}>Memory successfully enriched. Graph updated.</span>
         </div>
       )}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         {/* Incident */}
-        <div style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 8, padding: '18px 20px' }}>
+        <div style={{ background: '#111214', border: '1px solid #202124', borderRadius: 8, padding: '18px 20px' }}>
           <label style={labelStyle}>Incident</label>
           <select
             value={incidentId}
@@ -65,31 +65,31 @@ export default function Postmortem() {
         </div>
 
         {/* Timeline */}
-        <div style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 8, padding: '18px 20px' }}>
+        <div style={{ background: '#111214', border: '1px solid #202124', borderRadius: 8, padding: '18px 20px' }}>
           <label style={labelStyle}>Incident Timeline</label>
           <textarea rows={6} value={timeline} onChange={e => setTimeline(e.target.value)} style={fieldStyle} />
         </div>
 
         {/* Root Cause */}
-        <div style={{ background: '#161B22', border: '1px solid rgba(248,81,73,0.2)', borderRadius: 8, padding: '18px 20px' }}>
+        <div style={{ background: '#111214', border: '1px solid rgba(248,81,73,0.2)', borderRadius: 8, padding: '18px 20px' }}>
           <label style={{ ...labelStyle, color: '#F85149' }}>Root Cause Analysis</label>
           <textarea rows={4} value={rootCause} onChange={e => setRootCause(e.target.value)} style={{ ...fieldStyle, borderColor: 'rgba(248,81,73,0.2)' }} />
         </div>
 
         {/* Resolution */}
-        <div style={{ background: '#161B22', border: '1px solid rgba(63,185,80,0.2)', borderRadius: 8, padding: '18px 20px' }}>
+        <div style={{ background: '#111214', border: '1px solid rgba(63,185,80,0.2)', borderRadius: 8, padding: '18px 20px' }}>
           <label style={{ ...labelStyle, color: '#3FB950' }}>Resolution Steps</label>
           <textarea rows={4} value={resolution} onChange={e => setResolution(e.target.value)} style={{ ...fieldStyle, borderColor: 'rgba(63,185,80,0.2)' }} />
         </div>
 
         {/* Lessons Learned */}
-        <div style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 8, padding: '18px 20px' }}>
+        <div style={{ background: '#111214', border: '1px solid #202124', borderRadius: 8, padding: '18px 20px' }}>
           <label style={labelStyle}>Lessons Learned</label>
           <textarea rows={4} value={lessons} onChange={e => setLessons(e.target.value)} style={fieldStyle} />
         </div>
 
         {/* Runbook Updates */}
-        <div style={{ background: '#161B22', border: '1px solid rgba(88,166,255,0.2)', borderRadius: 8, padding: '18px 20px' }}>
+        <div style={{ background: '#111214', border: '1px solid rgba(88,166,255,0.2)', borderRadius: 8, padding: '18px 20px' }}>
           <label style={{ ...labelStyle, color: '#58A6FF' }}>Runbook Updates</label>
           <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
             {MOCK_RUNBOOKS.map(r => (

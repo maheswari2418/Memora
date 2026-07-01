@@ -37,9 +37,9 @@ export default function IncidentQueue({ incidents, selected, onSelect, onRecall,
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
       {/* Header */}
-      <div style={{ padding: '10px 12px 8px', borderBottom: '1px solid #30363D', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+      <div style={{ padding: '10px 12px 8px', borderBottom: '1px solid #202124', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
         <span style={{ fontSize: 11, fontWeight: 600, color: '#E6EDF3' }}>Incident Queue</span>
-        <span style={{ fontSize: 10, fontFamily: 'JetBrains Mono, monospace', color: '#8B949E' }}>
+        <span style={{ fontSize: 10, fontFamily: 'Geist Mono, monospace', color: '#8B949E' }}>
           {active.length} active
         </span>
       </div>
@@ -69,11 +69,11 @@ export default function IncidentQueue({ incidents, selected, onSelect, onRecall,
                   background: isNew
                     ? 'rgba(248,81,73,0.06)'
                     : isSelected
-                      ? 'rgba(124,58,237,0.1)'
+                      ? 'rgba(22,208,94,0.1)'
                       : severityBg[incident.severity] ?? 'transparent',
                   border: `1px solid ${
                     isNew      ? 'rgba(248,81,73,0.3)'
-                    : isSelected ? 'rgba(124,58,237,0.35)'
+                    : isSelected ? 'rgba(22,208,94,0.35)'
                     : 'transparent'
                   }`,
                   opacity: isResolved ? 0.55 : 1,
@@ -82,7 +82,7 @@ export default function IncidentQueue({ incidents, selected, onSelect, onRecall,
               >
                 {/* Top row */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-                  <code style={{ fontSize: 10, color: '#8B949E', fontFamily: 'JetBrains Mono, monospace' }}>{incident.id}</code>
+                  <code style={{ fontSize: 10, color: '#8B949E', fontFamily: 'Geist Mono, monospace' }}>{incident.id}</code>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                     {isNew && (
                       <motion.span
@@ -91,7 +91,7 @@ export default function IncidentQueue({ incidents, selected, onSelect, onRecall,
                         exit={{ scale: 0 }}
                         style={{
                           fontSize: 8, fontWeight: 700, background: '#F85149', color: '#fff',
-                          borderRadius: 3, padding: '1px 4px', fontFamily: 'JetBrains Mono, monospace',
+                          borderRadius: 3, padding: '1px 4px', fontFamily: 'Geist Mono, monospace',
                         }}
                       >
                         NEW
@@ -116,9 +116,9 @@ export default function IncidentQueue({ incidents, selected, onSelect, onRecall,
 
                 {/* Footer */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: 10, color: '#484F58', fontFamily: 'JetBrains Mono, monospace' }}>{timeAgo(incident.startedAt)}</span>
+                  <span style={{ fontSize: 10, color: '#484F58', fontFamily: 'Geist Mono, monospace' }}>{timeAgo(incident.startedAt)}</span>
                   {incident.previousMatches > 0 && (
-                    <span style={{ fontSize: 9, color: '#7C3AED', fontFamily: 'JetBrains Mono, monospace' }}>
+                    <span style={{ fontSize: 9, color: '#16d05e', fontFamily: 'Geist Mono, monospace' }}>
                       {incident.previousMatches} matches
                     </span>
                   )}
@@ -133,7 +133,7 @@ export default function IncidentQueue({ incidents, selected, onSelect, onRecall,
                       exit={{ opacity: 0, height: 0 }}
                       onClick={e => { e.stopPropagation(); onRecall(incident); }}
                       style={{
-                        marginTop: 8, width: '100%', background: '#7C3AED', color: 'white',
+                        marginTop: 8, width: '100%', background: '#16d05e', color: 'white',
                         border: 'none', borderRadius: 5, padding: '7px 0',
                         fontSize: 11, fontWeight: 600, cursor: 'pointer', overflow: 'hidden',
                       }}
@@ -156,7 +156,7 @@ export default function IncidentQueue({ incidents, selected, onSelect, onRecall,
 
       {/* Resolved count footer */}
       {resolved.length > 0 && (
-        <div style={{ padding: '8px 12px', borderTop: '1px solid #21262D', fontSize: 10, color: '#3FB950', fontFamily: 'JetBrains Mono, monospace', flexShrink: 0 }}>
+        <div style={{ padding: '8px 12px', borderTop: '1px solid #21262D', fontSize: 10, color: '#3FB950', fontFamily: 'Geist Mono, monospace', flexShrink: 0 }}>
           ✓ {resolved.length} resolved this session
         </div>
       )}

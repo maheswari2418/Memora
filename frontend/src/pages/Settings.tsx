@@ -24,7 +24,7 @@ export default function Settings() {
       </div>
 
       {/* Demo Mode */}
-      <div style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 8, padding: '18px 20px', marginBottom: 12 }}>
+      <div style={{ background: '#111214', border: '1px solid #202124', borderRadius: 8, padding: '18px 20px', marginBottom: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
             <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 2 }}>Demo Mode</div>
@@ -34,7 +34,7 @@ export default function Settings() {
             onClick={() => setDemoMode(!demoMode)}
             style={{
               width: 40, height: 22, borderRadius: 100, cursor: 'pointer',
-              background: demoMode ? '#7C3AED' : '#30363D',
+              background: demoMode ? '#16d05e' : '#202124',
               position: 'relative', transition: 'background 0.2s',
             }}
           >
@@ -48,7 +48,7 @@ export default function Settings() {
       </div>
 
       {/* Memory Actions */}
-      <div style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 8, padding: '18px 20px', marginBottom: 12 }}>
+      <div style={{ background: '#111214', border: '1px solid #202124', borderRadius: 8, padding: '18px 20px', marginBottom: 12 }}>
         <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 12 }}>Memory Control</div>
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           <button
@@ -72,24 +72,24 @@ export default function Settings() {
             🗑 Reset Demo (forget())
           </button>
         </div>
-        {seeded && <div style={{ marginTop: 10, fontSize: 11, color: '#3FB950', fontFamily: 'JetBrains Mono, monospace' }}>✓ Memory seeded successfully</div>}
-        {resetDone && <div style={{ marginTop: 10, fontSize: 11, color: '#F85149', fontFamily: 'JetBrains Mono, monospace' }}>✓ Memory reset complete</div>}
+        {seeded && <div style={{ marginTop: 10, fontSize: 11, color: '#3FB950', fontFamily: 'Geist Mono, monospace' }}>✓ Memory seeded successfully</div>}
+        {resetDone && <div style={{ marginTop: 10, fontSize: 11, color: '#F85149', fontFamily: 'Geist Mono, monospace' }}>✓ Memory reset complete</div>}
       </div>
 
       {/* Memory Statistics */}
-      <div style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 8, padding: '18px 20px', marginBottom: 12 }}>
+      <div style={{ background: '#111214', border: '1px solid #202124', borderRadius: 8, padding: '18px 20px', marginBottom: 12 }}>
         <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 14 }}>Memory Statistics</div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
           {[
-            { label: 'Total Nodes', value: a.totalMemoryNodes, color: '#7C3AED' },
+            { label: 'Total Nodes', value: a.totalMemoryNodes, color: '#16d05e' },
             { label: 'Total Edges', value: a.totalMemoryEdges, color: '#58A6FF' },
             { label: 'Auto-Resolved', value: `${a.autoResolutionRate}%`, color: '#3FB950' },
             { label: 'Mean Inv. Time', value: `${a.meanInvestigationTime}m`, color: '#D29922' },
             { label: 'Recall Accuracy', value: '95%', color: '#58A6FF' },
             { label: 'Current MTTR', value: '4 min', color: '#3FB950' },
           ].map(stat => (
-            <div key={stat.label} style={{ background: '#0D1117', border: '1px solid #21262D', borderRadius: 6, padding: '12px 14px' }}>
-              <div style={{ fontSize: 9, color: '#8B949E', fontFamily: 'JetBrains Mono, monospace', marginBottom: 4 }}>{stat.label}</div>
+            <div key={stat.label} style={{ background: '#090a0c', border: '1px solid #21262D', borderRadius: 6, padding: '12px 14px' }}>
+              <div style={{ fontSize: 9, color: '#8B949E', fontFamily: 'Geist Mono, monospace', marginBottom: 4 }}>{stat.label}</div>
               <div style={{ fontSize: 20, fontWeight: 700, color: stat.color }}>{stat.value}</div>
             </div>
           ))}
@@ -97,7 +97,7 @@ export default function Settings() {
       </div>
 
       {/* Connected Sources */}
-      <div style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 8, padding: '18px 20px', marginBottom: 12 }}>
+      <div style={{ background: '#111214', border: '1px solid #202124', borderRadius: 8, padding: '18px 20px', marginBottom: 12 }}>
         <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 12 }}>Connected Sources</div>
         {sources.map(s => (
           <div key={s.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 0', borderBottom: '1px solid #21262D' }}>
@@ -116,7 +116,7 @@ export default function Settings() {
       </div>
 
       {/* API Health */}
-      <div style={{ background: '#161B22', border: '1px solid #30363D', borderRadius: 8, padding: '18px 20px' }}>
+      <div style={{ background: '#111214', border: '1px solid #202124', borderRadius: 8, padding: '18px 20px' }}>
         <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 12 }}>Cognee API Health</div>
         {[
           { endpoint: '/api/seed', desc: 'remember() — memory ingestion' },
@@ -126,7 +126,7 @@ export default function Settings() {
         ].map(ep => (
           <div key={ep.endpoint} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 0', borderBottom: '1px solid #21262D' }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: demoMode ? '#3FB950' : '#D29922', flexShrink: 0, display: 'inline-block' }} />
-            <code style={{ fontSize: 11, color: '#58A6FF', fontFamily: 'JetBrains Mono, monospace', minWidth: 140 }}>{ep.endpoint}</code>
+            <code style={{ fontSize: 11, color: '#58A6FF', fontFamily: 'Geist Mono, monospace', minWidth: 140 }}>{ep.endpoint}</code>
             <span style={{ fontSize: 11, color: '#8B949E' }}>{ep.desc}</span>
           </div>
         ))}
