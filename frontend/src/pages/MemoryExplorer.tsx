@@ -47,7 +47,7 @@ export default function MemoryExplorer() {
   const typeColor: Record<string, string> = { incident: '#F85149', github_pr: '#8B949E', slack_thread: '#7C3AED', datadog_alert: '#D29922', runbook: '#3FB950', deployment: '#58A6FF' };
 
   return (
-    <div style={{ padding: 24, background: '#0D1117', minHeight: '100vh' }}>
+    <div style={{ padding: 24, background: 'transparent', minHeight: '100vh' }}>
       <div style={{ marginBottom: 20 }}>
         <h1 style={{ fontSize: 18, fontWeight: 700, margin: 0, marginBottom: 4 }}>Memory Explorer</h1>
         <p style={{ fontSize: 12, color: '#8B949E', margin: 0 }}>Search and browse Cognee's organizational memory graph</p>

@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAlertStream } from '../hooks/useAlertStream';
 import type { Incident } from '../types';
+import NeuralBackground from '../components/NeuralBackground';
 
 interface Props { onLaunch: () => void; }
 
@@ -32,12 +33,13 @@ export default function LandingPage({ onLaunch }: Props) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0a0a0a',
+      background: 'transparent',
       color: '#f5f5f5',
       fontFamily: "'Inter', sans-serif",
       WebkitFontSmoothing: 'antialiased',
       overflowX: 'hidden',
     }}>
+      <NeuralBackground />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -284,10 +286,10 @@ export default function LandingPage({ onLaunch }: Props) {
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div style={{ fontSize: 14, color: '#888', marginBottom: 28 }}>How Memora works</div>
           <div style={{ fontSize: 58, fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.025em' }}>
-            <span style={{ color: '#f5f5f5' }}>Datadog alone never tells<br />the whole story. </span>
-            <span style={{ color: '#444' }}>Memora<br />joins your alerts with your<br />runbooks, </span>
-            <span style={{ color: '#f5f5f5' }}>your commits,<br />your Slack threads, and<br />your past postmortems. </span>
-            <span style={{ color: '#444' }}>It<br />drafts the fix, fires the<br />action, </span>
+            <span style={{ color: '#f5f5f5' }}>Alerts alone never solve<br />the incident. </span>
+            <span style={{ color: '#444' }}>Memora connects<br />your telemetry stream with your<br />runbooks, </span>
+            <span style={{ color: '#f5f5f5' }}>code repositories,<br />Slack discussions, and<br />past postmortems. </span>
+            <span style={{ color: '#444' }}>It instantly<br />diagnoses root cause, suggests<br />resolutions, </span>
             <span style={{ color: '#f5f5f5' }}>and </span>
             <span style={{ color: '#444' }}>cites every match.</span>
           </div>

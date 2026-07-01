@@ -17,7 +17,7 @@ export default function Settings() {
   ];
 
   return (
-    <div style={{ padding: 24, background: '#0D1117', minHeight: '100vh', maxWidth: 700, margin: '0 auto' }}>
+    <div style={{ padding: 24, background: 'transparent', minHeight: '100vh', maxWidth: 700, margin: '0 auto' }}>
       <div style={{ marginBottom: 24 }}>
         <h1 style={{ fontSize: 18, fontWeight: 700, margin: 0, marginBottom: 4 }}>Settings</h1>
         <p style={{ fontSize: 12, color: '#8B949E', margin: 0 }}>Configure Memora's demo environment and memory system</p>

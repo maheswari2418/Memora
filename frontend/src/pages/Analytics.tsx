@@ -6,7 +6,7 @@ const PIE_COLORS = ['#7C3AED', '#58A6FF', '#3FB950', '#D29922', '#F85149', '#8B9
 export default function Analytics() {
   const a = MOCK_ANALYTICS;
   return (
-    <div style={{ padding: 24, background: '#0D1117', minHeight: '100vh' }}>
+    <div style={{ padding: 24, background: 'transparent', minHeight: '100vh' }}>
       <div style={{ marginBottom: 24 }}>
         <h1 style={{ fontSize: 18, fontWeight: 700, margin: 0, marginBottom: 4 }}>Analytics</h1>
         <p style={{ fontSize: 12, color: '#8B949E', margin: 0 }}>Memory-driven incident resolution metrics</p>

@@ -36,7 +36,7 @@ export default function Postmortem() {
   const labelStyle = { fontSize: 12, fontWeight: 600, color: '#E6EDF3', marginBottom: 6, display: 'block' };
 
   return (
-    <div style={{ padding: 24, background: '#0D1117', minHeight: '100vh', maxWidth: 820, margin: '0 auto' }}>
+    <div style={{ padding: 24, background: 'transparent', minHeight: '100vh', maxWidth: 820, margin: '0 auto' }}>
       <div style={{ marginBottom: 24 }}>
         <h1 style={{ fontSize: 18, fontWeight: 700, margin: 0, marginBottom: 4 }}>Postmortem Workspace</h1>
         <p style={{ fontSize: 12, color: '#8B949E', margin: 0 }}>Document the incident and enrich organizational memory with remember() + improve()</p>

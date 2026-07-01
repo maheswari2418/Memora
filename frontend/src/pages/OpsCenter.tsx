@@ -163,7 +163,7 @@ export default function OpsCenter() {
   const activeCount = incidents.filter(i => i.status !== 'resolved').length;
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: '#0D1117', overflow: 'hidden' }}>
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: 'transparent', overflow: 'hidden' }}>
       {/* ── Header ── */}
       <div style={{
         height: 48, borderBottom: '1px solid #30363D', flexShrink: 0,

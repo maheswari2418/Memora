@@ -1206,9 +1206,98 @@
       nav { padding: 0 20px; }
       .nav-links { display: none; }
     }
+
+    /* ─── NEURAL HUD ANIMATIONS ─── */
+    .rotate-slow {
+      transform-origin: 70vw 42vh;
+      animation: hudSpin 48s linear infinite;
+    }
+    .rotate-fast {
+      transform-origin: 70vw 42vh;
+      animation: hudSpin 18s linear infinite reverse;
+    }
+    .hud-pulse {
+      animation: hudDotPulse 2.5s infinite ease-in-out;
+    }
+    @keyframes hudSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes hudDotPulse {
+      0%, 100% { transform: scale(1); opacity: 0.4; }
+      50% { transform: scale(1.6); opacity: 1; }
+    }
   </style>
 </head>
 <body>
+  <!-- ─── NEURAL HUD BACKGROUND ─── -->
+  <div style="position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-2; pointer-events:none; overflow:hidden; background:#090a0c;">
+    <!-- Grid Overlay -->
+    <div style="position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px); background-size:80px 80px; background-position:center center; opacity:0.8;"></div>
+    <!-- HUD Brain SVG -->
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position:absolute; inset:0;">
+      <defs>
+        <filter id="hud-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="6" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+        <radialGradient id="sun-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#16d05e" stop-opacity="0.08" />
+          <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+      <circle cx="75%" cy="45%" r="35%" fill="url(#sun-glow)" />
+      <g transform="translate(0, 0)" style="transform:translate(70vw, 42vh);">
+        <circle cx="0" cy="0" r="190" fill="none" stroke="rgba(22, 208, 94, 0.04)" stroke-width="1" />
+        <circle cx="0" cy="0" r="160" fill="none" stroke="rgba(22, 208, 94, 0.06)" stroke-width="1" stroke-dasharray="4 8" class="rotate-slow" />
+        <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(22, 208, 94, 0.08)" stroke-width="0.8" />
+        <circle cx="0" cy="0" r="100" fill="none" stroke="rgba(22, 208, 94, 0.12)" stroke-width="1.2" stroke-dasharray="180 90" class="rotate-fast" />
+        <line x1="-210" y1="0" x2="210" y2="0" stroke="rgba(22, 208, 94, 0.04)" stroke-width="0.8" />
+        <line x1="0" y1="-210" x2="0" y2="210" stroke="rgba(22, 208, 94, 0.04)" stroke-width="0.8" />
+        <g filter="url(#hud-glow)" opacity="0.32" stroke="#16d05e" stroke-width="1.5" fill="none" style="transform:scale(1.2) translate(-65px, -60px);">
+          <path d="M 60,30 C 40,25 20,40 20,60 C 20,75 35,90 50,95 C 40,105 45,120 60,120 C 70,120 75,115 80,105 C 85,115 90,120 100,120 C 115,120 120,105 110,95 C 125,90 140,75 140,60 C 140,40 120,25 100,30 C 95,20 85,15 80,15 C 75,15 65,20 60,30 Z" stroke-width="2.2" />
+          <path d="M 50,32 C 55,40 60,45 65,42 C 70,40 68,30 60,30" />
+          <path d="M 40,45 C 35,55 45,65 55,60 C 65,55 60,45 50,45" />
+          <path d="M 30,65 C 28,75 38,80 48,75 C 58,70 50,60 40,65" />
+          <path d="M 38,85 C 42,92 52,90 55,82 C 58,75 48,78 38,85" />
+          <path d="M 60,98 C 65,108 78,105 78,95" />
+          <path d="M 82,95 C 82,105 95,108 100,98" />
+          <path d="M 122,85 C 112,78 102,75 105,82 C 108,90 118,92 122,85" />
+          <path d="M 130,65 C 120,60 112,70 122,75 C 132,80 132,75 130,65" />
+          <path d="M 120,45 C 110,45 105,55 115,60 C 125,65 135,55 120,45" />
+          <path d="M 110,30 C 102,30 100,40 105,42 C 110,45 115,40 110,30" />
+          <path d="M 65,105 C 55,108 58,122 70,122 C 75,122 75,115 80,110" stroke-width="1" stroke-color="#16d05e" />
+          <path d="M 95,105 C 105,108 102,122 90,122 C 85,122 85,115 80,110" stroke-width="1" stroke-color="#16d05e" />
+          <path d="M 80,15 L 80,110" stroke-dasharray="3 3" stroke-width="1" />
+        </g>
+        <g stroke="rgba(22, 208, 94, 0.4)" stroke-width="1.2" fill="none">
+          <path d="M -70,-60 L -160,-60 L -180,-80" />
+          <path d="M 70,-60 L 160,-60 L 180,-80" />
+          <path d="M -70,50 L -140,50 L -160,70" />
+          <path d="M 70,50 L 140,50 L 160,70" />
+        </g>
+        <g fill="#16d05e" filter="url(#hud-glow)">
+          <circle cx="-70" cy="-60" r="3" class="hud-pulse" />
+          <circle cx="70" cy="-60" r="3" class="hud-pulse" />
+          <circle cx="-70" cy="50" r="3" class="hud-pulse" />
+          <circle cx="70" cy="50" r="3" class="hud-pulse" />
+          <circle cx="-180" cy="-80" r="2.5" />
+          <circle cx="180" cy="-80" r="2.5" />
+          <circle cx="-160" cy="70" r="2.5" />
+          <circle cx="160" cy="70" r="2.5" />
+        </g>
+        <g fill="rgba(255, 255, 255, 0.85)" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="600">
+          <text x="-245" y="-83" text-anchor="start">remember()</text>
+          <text x="192" y="-83" text-anchor="start">recall()</text>
+          <text x="-225" y="74" text-anchor="start">improve()</text>
+          <text x="172" y="74" text-anchor="start">forget()</text>
+        </g>
+        <path d="M -190,0 L -185,0 M 190,0 L 185,0 M 0,-190 L 0,-185 M 0,190 L 0,185" stroke="rgba(22, 208, 94, 0.4)" stroke-width="1.2" />
+        <text x="0" y="-198" fill="rgba(22, 208, 94, 0.4)" font-size="8" font-family="monospace" text-anchor="middle">00°</text>
+        <text x="204" y="3" fill="rgba(22, 208, 94, 0.4)" font-size="8" font-family="monospace" text-anchor="start">90°</text>
+      </g>
+    </svg>
+  </div>
 
   <!-- ─── NAV ─── -->
   <nav>
@@ -1304,10 +1393,10 @@
     <div class="how-inner fade-up">
       <div class="how-eyebrow">How Memora works</div>
       <div class="how-statement">
-        <span class="bright">Datadog alone never tells<br>the whole story. </span>
-        <span class="dim">Memora<br>joins your alerts with your<br>runbooks, </span>
-        <span class="bright">your commits,<br>your Slack threads, and<br>your past postmortems. </span>
-        <span class="dim">It<br>drafts the fix, fires the<br>action, </span>
+        <span class="bright">Alerts alone never solve<br>the incident. </span>
+        <span class="dim">Memora connects<br>your telemetry stream with your<br>runbooks, </span>
+        <span class="bright">code repositories,<br>Slack discussions, and<br>past postmortems. </span>
+        <span class="dim">It instantly<br>diagnoses root cause, suggests<br>resolutions, </span>
         <span class="bright">and</span>
         <span class="dim"> cites every<br>match.</span>
       </div>
@@ -2043,6 +2132,8 @@
         }
       });
     });
+
+    // Dynamic HUD background does not require runtime canvas script context.
   </script>
 </body>
 </html>

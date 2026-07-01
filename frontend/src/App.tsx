@@ -6,6 +6,7 @@ import MemoryExplorer from './pages/MemoryExplorer';
 import Analytics from './pages/Analytics';
 import Settings from './pages/Settings';
 import Postmortem from './pages/Postmortem';
+import NeuralBackground from './components/NeuralBackground';
 
 export type Page = 'landing' | 'ops' | 'memory' | 'analytics' | 'postmortem' | 'settings';
 
@@ -17,7 +18,8 @@ export default function App() {
   }
 
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: '#0D1117' }}>
+    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: 'transparent', position: 'relative' }}>
+      <NeuralBackground />
       <Sidebar currentPage={page} onNavigate={setPage} />
       <main style={{ flex: 1, overflow: 'auto' }}>
         <AnimatePresence mode="wait">
